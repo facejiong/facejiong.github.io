@@ -5,6 +5,7 @@
   </head>
 <body>
 <div class="scroll" style="position:absolute; overflow:scroll; -webkit-overflow-scrolling: touch; top:0; left:0; bottom:0; right:0">
+    <div id='value' style="position: fixed;height: 50px; color: red;font-size: 50px;background-color: #000;"></div>
  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tortor urna, euismod ac pretium id, ornare sit amet elit. Suspendisse in eleifend tellus, et semper dolor. Aliquam nec convallis orci. Pellentesque ultricies, odio id tincidunt tempus, leo nisl fermentum orci, at pulvinar mauris diam vel urna. Nulla dui turpis, aliquam tempor massa ac, venenatis facilisis enim. Pellentesque finibus ligula a odio molestie, eget blandit augue iaculis. Maecenas finibus tristique iaculis. Mauris commodo, neque suscipit eleifend mollis, ligula arcu molestie quam, aliquam aliquam nulla elit pulvinar libero. Donec accumsan, orci et eleifend imperdiet, diam lacus luctus lacus, eu tempus massa massa ut lectus. Integer interdum augue at ex tristique lobortis. Pellentesque nec dignissim diam, vel mollis eros. Morbi maximus, arcu a porttitor lacinia, ante ipsum semper tellus, sed aliquam elit ligula et diam. Etiam id nisi ut est consequat tincidunt. Fusce dictum ipsum sit amet nulla fringilla, non commodo orci tincidunt.
 
 Nam finibus varius rhoncus. Fusce vel leo pulvinar mauris ullamcorper eleifend eu ut massa. Morbi vestibulum erat eget enim dictum ultrices. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In non purus turpis. In bibendum gravida odio viverra venenatis. Aenean id magna iaculis, iaculis ante vitae, maximus ipsum. Duis fermentum enim eget elit efficitur, eu bibendum nibh sollicitudin.
@@ -58,11 +59,14 @@ Phasellus congue arcu id lorem maximus, eu pharetra eros rutrum. Vestibulum pret
 </body>
 
 <script>
+var valueId = document.querySelector('#value')
+console.dir(valueId.textContent)
 var overscroll = function(el) {
   el.addEventListener('touchstart', function() {
     var top = el.scrollTop
       , totalScroll = el.scrollHeight
       , currentScroll = top + el.offsetHeight
+      valueId.textContent = top + ':' + totalScroll + ':' + currentScroll
     //If we're at the top or the bottom of the containers
     //scroll, push up or down one pixel.
     //
@@ -77,6 +81,7 @@ var overscroll = function(el) {
   el.addEventListener('touchmove', function(evt) {
     //if the content is actually scrollable, i.e. the content is long enough
     //that scrolling can occur
+    valueId.textContent = el.offsetHeight + ':' + el.scrollHeight
     if(el.offsetHeight < el.scrollHeight)
       evt._isScroller = true
   })
@@ -85,6 +90,8 @@ overscroll(document.querySelector('.scroll'));
 document.body.addEventListener('touchmove', function(evt) {
   //In this case, the default behavior is scrolling the body, which
   //would result in an overflow.  Since we don't want that, we preventDefault.
+  console.dir(evt)
+  valueId.textContent = evt._isScroller
   if(!evt._isScroller) {
     evt.preventDefault()
   }
