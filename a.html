@@ -64,7 +64,7 @@
     window.onscroll = function(e) {
       console.dir($(document).scrollTop())
       if ($(document).scrollTop() === 0) {
-        $(document).on("touchmove", function(evt){
+        $(document).one("touchmove", function(evt){
           console.log('untouchmove')
           return false;
           console.log('untouchmove1')
