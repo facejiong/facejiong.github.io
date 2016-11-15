@@ -55,7 +55,6 @@
     var valueId = document.querySelector('#value')
     valueId.textContent = 12314
     document.body.addEventListener('touchstart', function(evt) {
-      console.dir(document.body.scrollTop)
       var top = document.body.scrollTop
         , totalScroll = document.body.scrollHeight
         , currentScroll = top + document.body.offsetHeight
@@ -65,13 +64,15 @@
       valueId.textContent = document.body.scrollTop
     })
     document.body.addEventListener('touchmove', function(evt) {
-      console.dir(document.body.scrollTop)
-      console.dir(evt.targetTouches)
       valueId.textContent = document.body.scrollTop
-      if (document.body.scrollTop < 10) {
+      if (document.body.scrollTop === 0) {
         evt.preventDefault()
       }
     })
+    window.onscroll = function(e) {
+      console.dir(e)
+      valueId.textContent = 'onscroll'
+    }
   </script>
   </body>
 </html>
