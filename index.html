@@ -53,55 +53,22 @@
   <script>
     console.dir('start')
     var valueId = document.querySelector('#value')
-    valueId.textContent = 12314
-    document.body.addEventListener('touchstart', function(evt) {
-      console.dir(document.body.scrollTop)
+    document.body.addEventListener('touchstart', function() {
       var top = document.body.scrollTop
-      if (top < 10) {
-        document.body.scrollTop = 10
+      , totalScroll = document.body.scrollHeight
+      , currentScroll = top + document.body.offsetHeight
+      if(top === 0) {
+        document.body.scrollTop = 1
+      } else if(currentScroll === totalScroll) {
+        document.body.scrollTop = top - 1
       }
-      valueId.textContent = document.body.scrollTop
     })
     document.body.addEventListener('touchmove', function(evt) {
-      console.dir(document.body.scrollTop)
-      console.dir(evt.targetTouches)
-      valueId.textContent = document.body.scrollTop
-      if (document.body.scrollTop < 10) {
-        valueId.textContent = '<10'
+      valueId.textContent = document.body.offsetHeight + ':' + document.body.scrollHeight
+      if(el.offsetHeight < el.scrollHeight) {
         evt.preventDefault()
       }
     })
-    // console.dir(valueId)
-    // var overscroll = function(el) {
-    //   el.addEventListener('touchstart', function() {
-    //     var top = el.scrollTop
-    //       , totalScroll = el.scrollHeight
-    //       , currentScroll = top + el.offsetHeight
-    //       console.log('top:' + top)
-    //       console.log('totalScroll:' + totalScroll)
-    //       console.log('currentScroll:' + currentScroll)
-    //     if(top === 0) {
-    //       el.scrollTop = 1
-    //     } else if(currentScroll === totalScroll) {
-    //       el.scrollTop = top - 1
-    //     }
-    //   })
-    //   el.addEventListener('touchmove', function(evt) {
-    //     console.log('move-offsetHeight:' + el.offsetHeight)
-    //     console.log('move-scrollHeight:' + el.scrollHeight)
-    //     valueId.textContent = el.offsetHeight + ':' + el.scrollHeight
-    //     if(el.offsetHeight < el.scrollHeight)
-    //       evt._isScroller = true
-    //   })
-    // }
-    // overscroll(document.querySelector('.scroll'));
-    // document.body.addEventListener('touchmove', function(evt) {
-    //   if(!evt._isScroller) {
-    //     valueId.textContent = 'preventDefault'
-    //     console.log('preventDefault')
-    //     evt.preventDefault()
-    //   }
-    // })
   </script>
   </body>
 </html>
