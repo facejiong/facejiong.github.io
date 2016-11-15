@@ -56,17 +56,18 @@
     valueId.textContent = 12314
     document.body.addEventListener('touchstart', function(evt) {
       console.dir(document.body.scrollTop)
-      console.dir(evt.targetTouches)
       var top = document.body.scrollTop
       if (top === 0) {
         document.body.scrollTop = 10
       }
+      valueId.textContent = document.body.scrollTop
     })
     document.body.addEventListener('touchmove', function(evt) {
       console.dir(document.body.scrollTop)
       console.dir(evt.targetTouches)
       valueId.textContent = document.body.scrollTop
       if (document.body.scrollTop < 10) {
+        valueId.textContent = '<10'
         evt.preventDefault()
       }
     })
