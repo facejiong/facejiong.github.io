@@ -57,7 +57,7 @@
     document.body.addEventListener('touchstart', function(evt) {
       console.dir(document.body.scrollTop)
       var top = document.body.scrollTop
-      if (top === 0) {
+      if (top < 10) {
         document.body.scrollTop = 10
       }
       valueId.textContent = document.body.scrollTop
