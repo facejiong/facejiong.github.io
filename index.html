@@ -57,6 +57,9 @@
       var top = document.body.scrollTop
       , totalScroll = document.body.scrollHeight
       , currentScroll = top + document.body.offsetHeight
+      console.log('top:' + top)
+      console.log('totalScroll:' + totalScroll)
+      console.log('currentScroll:' + currentScroll)
       if(top === 0) {
         document.body.scrollTop = 1
       } else if(currentScroll === totalScroll) {
@@ -65,7 +68,9 @@
     })
     document.body.addEventListener('touchmove', function(evt) {
       valueId.textContent = document.body.offsetHeight + ':' + document.body.scrollHeight
-      if(el.offsetHeight < el.scrollHeight) {
+      console.log('offsetHeight:' + document.body.offsetHeight)
+      console.log('scrollHeight:' + document.body.scrollHeight)
+      if(document.body.offsetHeight < document.body.scrollHeight) {
         evt.preventDefault()
       }
     })
