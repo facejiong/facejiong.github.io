@@ -57,12 +57,16 @@
     document.body.addEventListener('touchstart', function(evt) {
       console.dir(document.body.scrollTop)
       console.dir(evt.targetTouches)
+      var top = document.body.scrollTop
+      if (top === 0) {
+        document.body.scrollTop = 1
+      }
     })
     document.body.addEventListener('touchmove', function(evt) {
       console.dir(document.body.scrollTop)
       console.dir(evt.targetTouches)
       valueId.textContent = document.body.scrollTop
-      if (document.body.scrollTop <= -1) {
+      if (document.body.scrollTop < 1) {
         evt.preventDefault()
       }
     })
