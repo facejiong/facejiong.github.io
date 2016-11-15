@@ -50,28 +50,26 @@
 
     </section>
 </div>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script>
     console.dir('start')
     var valueId = document.querySelector('#value')
     valueId.textContent = 12314
-    document.body.addEventListener('touchstart', function(evt) {
-      var top = document.body.scrollTop
-        , totalScroll = document.body.scrollHeight
-        , currentScroll = top + document.body.offsetHeight
-      if (top < 10) {
-        document.body.scrollTop = 10
+    var top = 0
+    $(document).on("touchstart", function(evt){
+      if ($(document).scrollTop() === 0) {
+        $(document).scrollTop(2)
       }
-      valueId.textContent = document.body.scrollTop
-    })
-    document.body.addEventListener('touchmove', function(evt) {
-      valueId.textContent = document.body.scrollTop
-      if (document.body.scrollTop === 0) {
-        evt.preventDefault()
-      }
-    })
+    });
     window.onscroll = function(e) {
-      console.dir(e)
-      valueId.textContent = 'onscroll'
+      console.dir($(document).scrollTop())
+      if ($(document).scrollTop() === 0) {
+        $(document).on("touchmove", function(evt){
+          console.log('untouchmove')
+          return false;
+          console.log('untouchmove1')
+        });
+      }
     }
   </script>
   </body>
