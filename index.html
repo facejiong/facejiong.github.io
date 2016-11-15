@@ -10,7 +10,8 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
   <body>
-    <div class="scroll" style="position:absolute; overflow:scroll; -webkit-overflow-scrolling: touch; top:0; left:0; bottom:0; right:0">
+    <div class="scroll">
+      <div id='value' style="position:fixed; height: 10; color: red;">23</div>
     <section class="page-header">
       <h1 class="project-name">Facejiong.GitHub.io</h1>
       <h2 class="project-tagline"></h2>
@@ -51,34 +52,51 @@
 </div>
   <script>
     console.dir('start')
-    var overscroll = function(el) {
-      el.addEventListener('touchstart', function() {
-        var top = el.scrollTop
-          , totalScroll = el.scrollHeight
-          , currentScroll = top + el.offsetHeight
-          console.log('top:' + top)
-          console.log('totalScroll:' + totalScroll)
-          console.log('currentScroll:' + currentScroll)
-        if(top === 0) {
-          el.scrollTop = 1
-        } else if(currentScroll === totalScroll) {
-          el.scrollTop = top - 1
-        }
-      })
-      el.addEventListener('touchmove', function(evt) {
-        console.log('move-offsetHeight:' + el.offsetHeight)
-        console.log('move-scrollHeight:' + el.scrollHeight)
-        if(el.offsetHeight < el.scrollHeight)
-          evt._isScroller = true
-      })
-    }
-    overscroll(document.querySelector('.scroll'));
+    var valueId = document.querySelector('#value')
+    valueId.textContent = 12314
+    document.body.addEventListener('touchstart', function(evt) {
+      console.dir(document.body.scrollTop)
+      console.dir(evt.targetTouches)
+    })
     document.body.addEventListener('touchmove', function(evt) {
-      if(!evt._isScroller) {
-        console.log('preventDefault')
+      console.dir(document.body.scrollTop)
+      console.dir(evt.targetTouches)
+      valueId.textContent = document.body.scrollTop
+      if (document.body.scrollTop <= -1) {
         evt.preventDefault()
       }
     })
+    // console.dir(valueId)
+    // var overscroll = function(el) {
+    //   el.addEventListener('touchstart', function() {
+    //     var top = el.scrollTop
+    //       , totalScroll = el.scrollHeight
+    //       , currentScroll = top + el.offsetHeight
+    //       console.log('top:' + top)
+    //       console.log('totalScroll:' + totalScroll)
+    //       console.log('currentScroll:' + currentScroll)
+    //     if(top === 0) {
+    //       el.scrollTop = 1
+    //     } else if(currentScroll === totalScroll) {
+    //       el.scrollTop = top - 1
+    //     }
+    //   })
+    //   el.addEventListener('touchmove', function(evt) {
+    //     console.log('move-offsetHeight:' + el.offsetHeight)
+    //     console.log('move-scrollHeight:' + el.scrollHeight)
+    //     valueId.textContent = el.offsetHeight + ':' + el.scrollHeight
+    //     if(el.offsetHeight < el.scrollHeight)
+    //       evt._isScroller = true
+    //   })
+    // }
+    // overscroll(document.querySelector('.scroll'));
+    // document.body.addEventListener('touchmove', function(evt) {
+    //   if(!evt._isScroller) {
+    //     valueId.textContent = 'preventDefault'
+    //     console.log('preventDefault')
+    //     evt.preventDefault()
+    //   }
+    // })
   </script>
   </body>
 </html>
