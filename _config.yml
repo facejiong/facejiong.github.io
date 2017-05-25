@@ -4,11 +4,13 @@
 
 # Site
 title: wangjiong's blog
-subtitle:
-description:
+subtitle: everyday is new day
+description: happy coding
+keywords: code
 author: Wang Jiong
 language:
 timezone:
+email: 2279763407@qq.com
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
@@ -63,7 +65,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: material
+theme: indigo
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -71,3 +73,28 @@ deploy:
   type: git
   repo: https://github.com/facejiong/facejiong.github.io.git
   branch: master
+
+# feed
+feed:
+  type: atom
+  path: atom.xml
+  limit: 0
+
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: true
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: false
+    tags: true
