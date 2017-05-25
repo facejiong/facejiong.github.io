@@ -21,12 +21,6 @@ menu:
   github:
     url: https://github.com/facejiong
     target: _blank
-  weibo:
-    url:
-    target: _blank
-  link:
-    text: 测试
-    url: /custom
 
 # 你的头像url
 avatar: /img/avatar.jpg
