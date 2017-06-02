@@ -6,8 +6,43 @@ categories: nodejs
 ---
 本文koa-router版本是7.2.0
 
-#### 路由是什么？根据请求url路径，通过判断或正则匹配返回对应的页面。
-下面是一个简单的原生路由例子：
+### 路由是什么？根据请求url路径，通过判断或正则匹配返回对应的页面。
+#### 下面是一个简单的原生路由例子：
+```
+const Koa = require('koa')
+const app = new Koa()
+
+async function route( url ) {
+  let view = `<html><header></header><body>404</body></html>`
+  switch ( url ) {
+    case '/':
+      view = `<html><header></header><body>index</body></html>`
+      break
+    case '/index':
+      view = `<html><header></header><body>index</body></html>`
+      break
+    case '/todo':
+      view = `<html><header></header><body>to do</body></html>`
+      break
+    case '/404':
+      view = `<html><header></header><body>404</body></html>`
+      break
+    default:
+      break
+  }
+  let html = view
+  return html
+}
+
+app.use( async ( ctx ) => {
+  let url = ctx.request.url
+  let html = await route( url )
+  ctx.body = html
+})
+
+app.listen(3000)
+```
+#### 一个简单的koa-router例子
 ```
 const Koa = require('koa')
 const app = new Koa()
@@ -39,6 +74,91 @@ router.get('/company', function (ctx, next) {
 })
 app.use(router.routes()).use(router.allowedMethods())
 console.log(router)
+app.listen(3000)
+```
+#### 多个子router的使用
+```
+const Koa = require('koa')
+const app = new Koa()
+const Router = require('koa-router')
+
+// 子路由1
+let home = new Router()
+home.get('/', async ( ctx )=>{
+  let html = `
+    <ul>
+      <li><a href="/page/helloworld">/page/helloworld</a></li>
+      <li><a href="/page/404">/page/404</a></li>
+    </ul>
+  `
+  ctx.body = html
+})
+
+// 子路由2
+let page = new Router()
+page.get('/404', async ( ctx )=>{
+  ctx.body = '404 page!'
+}).get('/helloworld', async ( ctx )=>{
+  ctx.body = 'helloworld page!'
+})
+
+// 装载子路由
+let router = new Router()
+router.use('/', home.routes(), home.allowedMethods())
+router.use('/page', page.routes(), page.allowedMethods())
+
+// 加载路由中间件
+app.use(router.routes()).use(router.allowedMethods())
+
+app.listen(3000)
+```
+#### 路由嵌套
+```
+const Koa = require('koa')
+const app = new Koa()
+const Router = require('koa-router')
+
+let home = new Router()
+let page = new Router()
+page.get('/:pageid', async ( ctx )=>{
+  let html = `
+    <p>page:${ctx.params.pageid}</p>
+  `
+  ctx.body = html
+})
+// /home/232/page
+home.use('/home/:fid/page', page.routes(), page.allowedMethods());
+
+// 加载路由中间件
+app.use(home.routes())
+
+app.listen(3000)
+```
+#### 路由前缀
+```
+const Koa = require('koa')
+const app = new Koa()
+const Router = require('koa-router')
+
+let router = new Router({
+  prefix: '/users'
+})
+// /users
+router.get('/:pageid', async ( ctx )=>{
+  let html = `
+    <p>user home</p>
+  `
+  ctx.body = html
+})
+// /users/:userid
+router.get('/:userid', async ( ctx )=>{
+  let html = `
+    <p>user-id:${ctx.params.userid}</p>
+  `
+  ctx.body = html
+})
+
+app.use(router.routes()).use(router.allowedMethods())
 app.listen(3000)
 ```
 #### Router的结构，Router构造函数
