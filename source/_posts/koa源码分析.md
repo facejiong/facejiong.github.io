@@ -4,6 +4,7 @@ date: 2017-05-25 15:29:49
 tags: koa
 categories: nodejs
 ---
+本文koa版本是2.2.0
 创建一个koa的后端服务只需要3步:
 1. 创建koa的app对象
 2. 为app添加中间件
@@ -51,8 +52,8 @@ app.listen(3000);
 #### 从请求到响应类似下图
 ![](koa源码分析/koa-onion.png)
 
-创建Koa的app对象，Application继承Emitter对象，
-
+创建Koa的app对象，Application继承Emitter对象，代码结构如下
+![](koa源码分析/koa2.png)
 ```
  class Application extends Emitter {
   constructor() {
@@ -72,7 +73,7 @@ app.listen(3000);
   }
  }
 ```
-使用app.use()添加中间件
+koa的中间件是很重要，使用app.use()添加中间件
 ```
   use(fn) {
     //判断fn不是函数返回错误
@@ -100,6 +101,7 @@ app.listen()监听端口，listen是createServer()的封装
 当服务接收到http请求时，触发callback函数，
 ```
   callback() {
+    // 执行中间件
     const fn = compose(this.middleware);
 
     if (!this.listeners('error').length) this.on('error', this.onerror);
@@ -127,7 +129,9 @@ function compose (middleware) {
 
   return function (context, next) {
     // last called middleware #
+    // 闭包，存储index变量，中间件执行当前坐标
     let index = -1
+    // 从第一个中间件开始执行
     return dispatch(0)
     function dispatch (i) {
       if (i <= index) return Promise.reject(new Error('next() called multiple times'))
@@ -138,6 +142,7 @@ function compose (middleware) {
       try {
         // 执行中间件函数
         return Promise.resolve(fn(context, function next () {
+          // 执行下一个中间件
           return dispatch(i + 1)
         }))
       } catch (err) {
@@ -147,7 +152,7 @@ function compose (middleware) {
   }
 }
 ```
-context用于管理请求，响应
+#### context上下文用于管理请求，响应
 ```
   createContext(req, res) {
     const context = Object.create(this.context);
