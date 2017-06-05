@@ -36,3 +36,11 @@ $ hexo deploy
 ```
 
 More info: [Deployment](https://hexo.io/docs/deployment.html)
+
+### katex
+
+{% katex [displayMode] %}
+
+a^{b^{\sqrt{c}}}
+
+{% endkatex %}
