@@ -5,7 +5,7 @@ tags: koa
 categories: nodejs
 ---
 本文koa版本是2.2.0
-创建一个koa的后端服务只需要3步:
+## 创建一个koa的后端服务只需要3步:
 1. 创建koa的app对象
 2. 为app添加中间件
 3. 监听端口，创建server
@@ -52,7 +52,7 @@ app.listen(3000);
 #### 从请求到响应类似下图
 ![](koa源码分析/koa-onion.png)
 
-创建Koa的app对象，Application继承Emitter对象，代码结构如下
+#### 创建Koa的app对象，Application继承Emitter对象，代码结构如下
 ![](koa源码分析/koa2.png)
 ```
  class Application extends Emitter {
@@ -73,7 +73,7 @@ app.listen(3000);
   }
  }
 ```
-koa的中间件是很重要，使用app.use()添加中间件
+#### koa的中间件是很重要，使用app.use()添加中间件
 ```
   use(fn) {
     //判断fn不是函数返回错误
@@ -90,7 +90,7 @@ koa的中间件是很重要，使用app.use()添加中间件
     return this;
   }
 ```
-app.listen()监听端口，listen是createServer()的封装
+#### app.listen()监听端口，listen是createServer()的封装
 ```
   listen() {
     debug('listen');
@@ -98,7 +98,7 @@ app.listen()监听端口，listen是createServer()的封装
     return server.listen.apply(server, arguments);
   }
 ```
-当服务接收到http请求时，触发callback函数，
+#### 当服务接收到http请求时，触发callback函数，
 ```
   callback() {
     // 执行中间件
@@ -118,7 +118,7 @@ app.listen()监听端口，listen是createServer()的封装
     return handleRequest;
   }
 ```
-compose用于执行中间件函数，在callback()函数执行fn(ctx)，相当于从dispatch(0)开始，递归执行dispatch(i),直到执行完所有中间件函数
+#### compose用于执行中间件函数，在callback()函数执行fn(ctx)，相当于从dispatch(0)开始，递归执行dispatch(i),直到执行完所有中间件函数
 ```
 function compose (middleware) {
   // 参数判断

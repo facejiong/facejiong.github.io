@@ -6,8 +6,8 @@ categories: nodejs
 ---
 本文koa-router版本是7.2.0
 
-### 路由是什么？根据请求url路径，通过判断或正则匹配返回对应的页面。
-#### 下面是一个简单的原生路由例子：
+## 路由是什么？根据请求url路径，通过判断或正则匹配返回对应的页面。
+### 下面是一个简单的原生路由例子：
 ```
 const Koa = require('koa')
 const app = new Koa()
@@ -42,7 +42,7 @@ app.use( async ( ctx ) => {
 
 app.listen(3000)
 ```
-#### 一个简单的koa-router例子
+### 一个简单的koa-router例子
 ```
 const Koa = require('koa')
 const app = new Koa()
@@ -76,7 +76,7 @@ app.use(router.routes()).use(router.allowedMethods())
 console.log(router)
 app.listen(3000)
 ```
-#### 多个子router的使用
+### 多个子router的使用
 ```
 const Koa = require('koa')
 const app = new Koa()
@@ -112,7 +112,7 @@ app.use(router.routes()).use(router.allowedMethods())
 
 app.listen(3000)
 ```
-#### 路由嵌套
+### 路由嵌套
 ```
 const Koa = require('koa')
 const app = new Koa()
@@ -134,7 +134,7 @@ app.use(home.routes())
 
 app.listen(3000)
 ```
-#### 路由前缀
+### 路由前缀
 ```
 const Koa = require('koa')
 const app = new Koa()
@@ -161,7 +161,7 @@ router.get('/:userid', async ( ctx )=>{
 app.use(router.routes()).use(router.allowedMethods())
 app.listen(3000)
 ```
-#### Router的结构，Router构造函数
+## Router的结构，Router构造函数
 ```
 module.exports = Router;
 
@@ -186,7 +186,7 @@ function Router(opts) {
   this.stack = [];
 };
 ```
-Layer构造函数
+### Layer构造函数
 ```
 function Layer(path, methods, middleware, opts) {
   this.opts = opts || {};
@@ -219,7 +219,7 @@ function Layer(path, methods, middleware, opts) {
   debug('defined route %s %s', this.methods, this.opts.prefix + this.path);
 };
 ```
-上述例子Router对象
+### Router对象
 ```
 Router {
   opts: {},
@@ -252,7 +252,7 @@ Router {
        regexp: /^\/company(?:\/(?=$))?$/i } ] }
 
 ```
-#### path的匹配分两层，Router遍历所有layer，返回匹配的matched对象
+### path的匹配分两层，Router遍历所有layer，返回匹配的matched对象
 ```
 Router.prototype.match = function (path, method) {
   var layers = this.stack;
@@ -338,7 +338,7 @@ Router.prototype.routes = Router.prototype.middleware = function () {
   return dispatch;
 };
 ```
-router.allowedMethods()，执行router.allowedMethods()，返回allowedMethods(ctx, next)方法，判断请求的method是否被允许
+#### router.allowedMethods()，执行router.allowedMethods()，返回allowedMethods(ctx, next)方法，判断请求的method是否被允许
 ```
 Router.prototype.allowedMethods = function (options) {
   options = options || {};
