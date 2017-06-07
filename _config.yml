@@ -80,6 +80,11 @@ feed:
   path: atom.xml
   limit: 0
 
+server:
+  port: 4001
+  compress: true
+  header: true
+
 jsonContent:
   meta: false
   pages: false
