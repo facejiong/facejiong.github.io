@@ -5,7 +5,7 @@ tags: koa
 categories: nodejs
 ---
 本文koa版本是2.2.0
-## 创建一个koa的后端服务只需要3步:
+## 创建koa服务:
 1. 创建koa的app对象
 2. 为app添加中间件
 3. 监听端口，创建server
@@ -48,12 +48,16 @@ app.listen(3000);
 
 ```
 当请求http://localhost:3000/时，页面返回'Hello World'
-#### 命令行里面顺序打印日志：'x-response-time start' -->  'logger start' --> 'hello world' --> 'logger end' --> 'x-response-time end'
-#### 从请求到响应类似下图
+### 中间件执行顺序
+命令行里面顺序打印日志：'x-response-time start' -->  'logger start' --> 'hello world' --> 'logger end' --> 'x-response-time end'
+### async异步函数
+从请求到响应类似下图
 ![](koa源码分析/koa-onion.png)
 
-#### 创建Koa的app对象，Application继承Emitter对象，代码结构如下
+## 分析代码
+### app对象结构
 ![](koa源码分析/koa2.png)
+创建Koa的app对象，Application继承Emitter对象，代码结构如下
 ```
  class Application extends Emitter {
   constructor() {
@@ -73,7 +77,8 @@ app.listen(3000);
   }
  }
 ```
-#### koa的中间件是很重要，使用app.use()添加中间件
+### 添加中间件
+koa的中间件是很重要，使用app.use()添加中间件
 ```
   use(fn) {
     //判断fn不是函数返回错误
@@ -90,7 +95,8 @@ app.listen(3000);
     return this;
   }
 ```
-#### app.listen()监听端口，listen是createServer()的封装
+### 创建http服务
+app.listen()监听端口，listen是createServer()的封装
 ```
   listen() {
     debug('listen');
@@ -98,7 +104,8 @@ app.listen(3000);
     return server.listen.apply(server, arguments);
   }
 ```
-#### 当服务接收到http请求时，触发callback函数，
+### 接收到请求时的回调函数
+当服务接收到http请求时，触发callback函数，
 ```
   callback() {
     // 执行中间件
@@ -112,13 +119,15 @@ app.listen(3000);
       const onerror = err => ctx.onerror(err);
       const handleResponse = () => respond(ctx);
       onFinished(res, onerror);
+      // fn()
       return fn(ctx).then(handleResponse).catch(onerror);
     };
 
     return handleRequest;
   }
 ```
-#### compose用于执行中间件函数，在callback()函数执行fn(ctx)，相当于从dispatch(0)开始，递归执行dispatch(i),直到执行完所有中间件函数
+### 中间件
+ compose返回一个用于执行中间件的函数，在callback()函数执行fn(ctx)，从dispatch(0)开始，执行第一个中间件函数，然后递归执行dispatch(i)，执行中间件函数，直到执行完所有中间件函数
 ```
 function compose (middleware) {
   // 参数判断
@@ -136,7 +145,9 @@ function compose (middleware) {
     function dispatch (i) {
       if (i <= index) return Promise.reject(new Error('next() called multiple times'))
       index = i
+      // 取出中间件函数
       let fn = middleware[i]
+      // 最后一个是请求处理
       if (i === middleware.length) fn = next
       if (!fn) return Promise.resolve()
       try {
@@ -152,7 +163,8 @@ function compose (middleware) {
   }
 }
 ```
-#### context上下文用于管理请求，响应
+### context保存请求，响应对象
+ context上下文用于管理请求，响应
 ```
   createContext(req, res) {
     const context = Object.create(this.context);
@@ -175,4 +187,120 @@ function compose (middleware) {
     context.state = {};
     return context;
   }
+```
+### 请求和响应委托(Delegator)给context
+```
+// context 对象
+const delegate = require('delegates');
+const proto = module.exports = {
+  // 请求委托
+  delegate(proto, 'response')
+    .method('set')
+    .access('body')
+    .getter('headerSent')
+  // 响应委托
+  delegate(proto, 'request')
+    .method('get')
+    .access('url')
+    .getter('origin')
+}
+// delegate 实现
+// proto 被委托的对象
+function Delegator(proto, target) {
+  if (!(this instanceof Delegator)) return new Delegator(proto, target);
+  this.proto = proto;
+  this.target = target;
+  this.methods = [];
+  this.getters = [];
+  this.setters = [];
+  this.fluents = [];
+}
+// 获取委托对象
+Delegator.prototype.access = function(name){
+  return this.getter(name).setter(name);
+};
+Delegator.prototype.getter = function(name){
+  var proto = this.proto;
+  var target = this.target;
+  this.getters.push(name);
+
+  proto.__defineGetter__(name, function(){
+    return this[target][name];
+  });
+  // 用于链式调用
+  return this;
+};
+Delegator.prototype.method = function(name){
+  var proto = this.proto;
+  var target = this.target;
+  this.methods.push(name);
+
+  proto[name] = function(){
+    // 方法委托
+    return this[target][name].apply(this[target], arguments);
+  };
+
+  return this;
+};
+```
+### response body 处理
+分三种情况string,buffer,stream
+```
+{
+  get body() {
+    return this._body;
+  },
+
+  set body(val) {
+    const original = this._body;
+    this._body = val;
+
+    if (this.res.headersSent) return;
+
+    // no content
+    if (null == val) {
+      if (!statuses.empty[this.status]) this.status = 204;
+      this.remove('Content-Type');
+      this.remove('Content-Length');
+      this.remove('Transfer-Encoding');
+      return;
+    }
+
+    // set the status
+    if (!this._explicitStatus) this.status = 200;
+
+    // set the content-type only if not yet set
+    const setType = !this.header['content-type'];
+
+    // string字符串处理
+    if ('string' == typeof val) {
+      if (setType) this.type = /^\s*</.test(val) ? 'html' : 'text';
+      this.length = Buffer.byteLength(val);
+      return;
+    }
+
+    // buffer
+    if (Buffer.isBuffer(val)) {
+      if (setType) this.type = 'bin';
+      this.length = val.length;
+      return;
+    }
+
+    // stream流
+    if ('function' == typeof val.pipe) {
+      onFinish(this.res, destroy.bind(null, val));
+      ensureErrorHandler(val, err => this.ctx.onerror(err));
+
+      // overwriting
+      if (null != original && original != val) this.remove('Content-Length');
+
+      if (setType) this.type = 'bin';
+      return;
+    }
+
+    // json
+    this.remove('Content-Length');
+    this.type = 'json';
+  },
+}
 ```

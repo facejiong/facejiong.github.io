@@ -6,8 +6,10 @@ categories: nodejs
 ---
 本文koa-router版本是7.2.0
 
-## 路由是什么？根据请求url路径，通过判断或正则匹配返回对应的页面。
-### 下面是一个简单的原生路由例子：
+路由定义：根据请求url路径，通过判断或正则匹配返回对应的页面。
+## 示例：
+### 原生示例：
+
 ```
 const Koa = require('koa')
 const app = new Koa()
@@ -161,7 +163,8 @@ router.get('/:userid', async ( ctx )=>{
 app.use(router.routes()).use(router.allowedMethods())
 app.listen(3000)
 ```
-## Router的结构，Router构造函数
+## Router的结构
+Router构造函数
 ```
 module.exports = Router;
 
@@ -186,7 +189,7 @@ function Router(opts) {
   this.stack = [];
 };
 ```
-### Layer构造函数
+ Layer构造函数
 ```
 function Layer(path, methods, middleware, opts) {
   this.opts = opts || {};
@@ -220,6 +223,7 @@ function Layer(path, methods, middleware, opts) {
 };
 ```
 ### Router对象
+可以看出layer存储匹配规则等
 ```
 Router {
   opts: {},
@@ -252,7 +256,8 @@ Router {
        regexp: /^\/company(?:\/(?=$))?$/i } ] }
 
 ```
-### path的匹配分两层，Router遍历所有layer，返回匹配的matched对象
+### path的匹配
+分两层，Router遍历所有layer，返回匹配的matched对象
 ```
 Router.prototype.match = function (path, method) {
   var layers = this.stack;
@@ -290,7 +295,8 @@ Layer.prototype.match = function (path) {
   return this.regexp.test(path);
 };
 ```
-#### Router通过use()将methods方法与Router联系起来app.use(router.routes()).use(router.allowedMethods());
+### Router.use()
+Router通过use()将methods方法与Router联系起来app.use(router.routes()).use(router.allowedMethods());
 router.routes()返回一个中间件，用于对请求发起路由匹配，把一些router参数加入ctx对象,执行router.routes()，返回的是一个dispatch(ctx, next)方法
 ```
 Router.prototype.routes = Router.prototype.middleware = function () {
@@ -338,7 +344,8 @@ Router.prototype.routes = Router.prototype.middleware = function () {
   return dispatch;
 };
 ```
-#### router.allowedMethods()，执行router.allowedMethods()，返回allowedMethods(ctx, next)方法，判断请求的method是否被允许
+### Router.allowedMethods()
+执行router.allowedMethods()，返回allowedMethods(ctx, next)方法，判断请求的method是否被允许
 ```
 Router.prototype.allowedMethods = function (options) {
   options = options || {};
