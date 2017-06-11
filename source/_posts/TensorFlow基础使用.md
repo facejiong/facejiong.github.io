@@ -42,7 +42,7 @@ with tf.Session() as sess:
   result = sess.run([product])
   print(result)
 ```
-##　在Python解释器中使用
+## 在Python解释器中使用
 在解释器中可以使用InteractiveSession class, Tensor.eval() ，Operation.run()，避免使用变量保存session
 ```
 # Enter an interactive TensorFlow Session.
@@ -110,7 +110,7 @@ sess.run(init_op)之前并没有执行任何操作，所以state为０。sess.ru
 
 ## Fetches
 用于取出操作的结果。尽量在一次操作运行中取出多个tensor，提高效率。
-｀｀｀
+```
 import tensorflow as tf
 
 input1 = tf.constant([3.0])
@@ -127,7 +127,7 @@ with tf.Session() as sess:
 
 # output:
 # [array([ 21.], dtype=float32), array([ 7.], dtype=float32)]
-｀｀｀
+```
 ## Feeds
 用于临时保存tensor值，调用方法结束后，feed消失
 ```
