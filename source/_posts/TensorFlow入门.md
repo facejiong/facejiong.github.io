@@ -70,8 +70,3 @@ Variable：变量
 TensorFlow分两个阶段，构建阶段和执行阶段
 ## 梯度下降
 先随机对W赋值，然后改变W的值，使loss按梯度下降的方向进行减少
-{% katex [displayMode] %}
-
-
-
-{% endkatex %}
