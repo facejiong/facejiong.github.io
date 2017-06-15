@@ -1,5 +1,5 @@
 ---
-title: DNN训练鸢尾花卉数据集
+title: 使用tf.contrib.learn快速搭建DNN识别鸢尾花
 date: 2017-06-13 21:17:08
 tags: TensorFlow
 categories: 机器学习
