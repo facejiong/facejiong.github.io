@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="lodash," />
 
 
 
@@ -90,14 +90,17 @@
 
 
 
-<meta name="keywords" content="code">
+<meta name="description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485const HASH_UNDEFINED = &amp;apos;__lodash_h">
+<meta name="keywords" content="lodash">
 <meta property="og:type" content="article">
-<meta property="og:title" content="内存管理速成">
-<meta property="og:url" content="https://facejiong.github.io/2017/06/22/内存管理速成/index.html">
+<meta property="og:title" content="js-each，map，reduce实现">
+<meta property="og:url" content="https://facejiong.github.io/2017/10/16/lodash-hash实现/index.html">
 <meta property="og:site_name" content="wangjiong&#39;s blog">
-<meta property="og:updated_time" content="2017-06-22T06:10:59.215Z">
+<meta property="og:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485const HASH_UNDEFINED = &amp;apos;__lodash_h">
+<meta property="og:updated_time" content="2017-10-15T19:10:39.575Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="内存管理速成">
+<meta name="twitter:title" content="js-each，map，reduce实现">
+<meta name="twitter:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485const HASH_UNDEFINED = &amp;apos;__lodash_h">
 
 
 
@@ -125,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="https://facejiong.github.io/2017/06/22/内存管理速成/"/>
+  <link rel="canonical" href="https://facejiong.github.io/2017/10/16/lodash-hash实现/"/>
 
 
 
 
 
-  <title>内存管理速成 | wangjiong's blog</title>
+  <title>js-each，map，reduce实现 | wangjiong's blog</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -261,7 +264,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://facejiong.github.io/2017/06/22/内存管理速成/">
+    <link itemprop="mainEntityOfPage" href="https://facejiong.github.io/2017/10/16/lodash-hash实现/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Wang Jiong">
@@ -278,7 +281,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">内存管理速成</h1>
+          <h1 class="post-title" itemprop="name headline">js-each，map，reduce实现</h1>
         
 
         <div class="post-meta">
@@ -290,8 +293,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-22T14:10:59+08:00">
-                2017-06-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-16T02:29:16+08:00">
+                2017-10-16
               </time>
             
 
@@ -300,6 +303,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -325,7 +350,8 @@
       
 
       
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div></pre></td><td class="code"><pre><div class="line">const HASH_UNDEFINED = &apos;__lodash_hash_undefined__&apos;</div><div class="line">class Hash &#123;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Creates a hash object.</div><div class="line">   *</div><div class="line">   * @private</div><div class="line">   * @constructor</div><div class="line">   * @param &#123;Array&#125; [entries] The key-value pairs to cache.</div><div class="line">   */</div><div class="line">  constructor(entries) &#123;</div><div class="line">    let index = -1</div><div class="line">    const length = entries == null ? 0 : entries.length</div><div class="line"></div><div class="line">    this.clear()</div><div class="line">    while (++index &lt; length) &#123;</div><div class="line">      const entry = entries[index]</div><div class="line">      this.set(entry[0], entry[1])</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Removes all key-value entries from the hash.</div><div class="line">   *</div><div class="line">   * @memberOf Hash</div><div class="line">   */</div><div class="line">  clear() &#123;</div><div class="line">    this.__data__ = Object.create(null)</div><div class="line">    this.size = 0</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Removes `key` and its value from the hash.</div><div class="line">   *</div><div class="line">   * @memberOf Hash</div><div class="line">   * @param &#123;Object&#125; hash The hash to modify.</div><div class="line">   * @param &#123;string&#125; key The key of the value to remove.</div><div class="line">   * @returns &#123;boolean&#125; Returns `true` if the entry was removed, else `false`.</div><div class="line">   */</div><div class="line">  delete(key) &#123;</div><div class="line">    const result = this.has(key) &amp;&amp; delete this.__data__[key]</div><div class="line">    this.size -= result ? 1 : 0</div><div class="line">    return result</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Gets the hash value for `key`.</div><div class="line">   *</div><div class="line">   * @memberOf Hash</div><div class="line">   * @param &#123;string&#125; key The key of the value to get.</div><div class="line">   * @returns &#123;*&#125; Returns the entry value.</div><div class="line">   */</div><div class="line">  get(key) &#123;</div><div class="line">    const data = this.__data__</div><div class="line">    const result = data[key]</div><div class="line">    return result === HASH_UNDEFINED ? undefined : result</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Checks if a hash value for `key` exists.</div><div class="line">   *</div><div class="line">   * @memberOf Hash</div><div class="line">   * @param &#123;string&#125; key The key of the entry to check.</div><div class="line">   * @returns &#123;boolean&#125; Returns `true` if an entry for `key` exists, else `false`.</div><div class="line">   */</div><div class="line">  has(key) &#123;</div><div class="line">    const data = this.__data__</div><div class="line">    return data[key] !== undefined</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Sets the hash `key` to `value`.</div><div class="line">   *</div><div class="line">   * @memberOf Hash</div><div class="line">   * @param &#123;string&#125; key The key of the value to set.</div><div class="line">   * @param &#123;*&#125; value The value to set.</div><div class="line">   * @returns &#123;Object&#125; Returns the hash instance.</div><div class="line">   */</div><div class="line">  set(key, value) &#123;</div><div class="line">    const data = this.__data__</div><div class="line">    this.size += this.has(key) ? 0 : 1</div><div class="line">    data[key] = value === undefined ? HASH_UNDEFINED : value</div><div class="line">    return this</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -352,6 +378,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/lodash/" rel="tag"># lodash</a>
+          
+        </div>
+      
 
       
         
@@ -361,8 +393,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/16/机器学习-参数求解的三种方法/" rel="next" title="机器学习-参数求解的三种方法">
-                <i class="fa fa-chevron-left"></i> 机器学习-参数求解的三种方法
+              <a href="/2017/10/13/nodejs反向代理/" rel="next" title="nodejs反向代理">
+                <i class="fa fa-chevron-left"></i> nodejs反向代理
               </a>
             
           </div>
@@ -371,8 +403,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/06/28/react-router源码分析/" rel="prev" title="react-router源码分析">
-                react-router源码分析 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/10/16/lodash-flattern/" rel="prev" title="js-each，map，reduce实现">
+                js-each，map，reduce实现 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

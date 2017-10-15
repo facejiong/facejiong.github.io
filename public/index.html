@@ -265,6 +265,274 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://facejiong.github.io/2017/10/16/lodash-flattern/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wang Jiong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wangjiong's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/16/lodash-flattern/" itemprop="url">js-each，map，reduce实现</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-16T02:29:16+08:00">
+                2017-10-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">// 减少一级数组嵌套</div><div class="line">function flatten(array) &#123;</div><div class="line">  const length = array == null ? 0 : array.length</div><div class="line">  return length ? baseFlatten(array, 1) : []</div><div class="line">&#125;</div><div class="line">// 减少到一维</div><div class="line">function flattenDeep(array) &#123;</div><div class="line">  const length = array == null ? 0 : array.length</div><div class="line">  return length ? baseFlatten(array, INFINITY) : []</div><div class="line">&#125;</div><div class="line">// 减少depth维</div><div class="line">function flattenDepth(array, depth) &#123;</div><div class="line">  const length = array == null ? 0 : array.length</div><div class="line">  if (!length) &#123;</div><div class="line">    return []</div><div class="line">  &#125;</div><div class="line">  depth = depth === undefined ? 1 : +depth</div><div class="line">  return baseFlatten(array, depth)</div><div class="line">&#125;</div><div class="line">/**</div><div class="line"> * @private</div><div class="line"> * @param &#123;Array&#125; array 需要处理的数组</div><div class="line"> * @param &#123;number&#125; depth 需要减少的维度</div><div class="line"> * @param &#123;boolean&#125; [predicate=isFlattenable] 每个元素回调函数，判断是否一维，默认isFlattenable</div><div class="line"> * @param &#123;boolean&#125; [isStrict] Restrict to values that pass `predicate` checks.</div><div class="line"> * @param &#123;Array&#125; [result=[]] 初始结果值</div><div class="line"> * @returns &#123;Array&#125; 返回结果</div><div class="line"> */</div><div class="line">function baseFlatten(array, depth, predicate, isStrict, result) &#123;</div><div class="line">  predicate || (predicate = isFlattenable)</div><div class="line">  result || (result = [])</div><div class="line"></div><div class="line">  if (array == null) &#123;</div><div class="line">    return result</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  for (const value of array) &#123;</div><div class="line">    if (depth &gt; 0 &amp;&amp; predicate(value)) &#123;</div><div class="line">      if (depth &gt; 1) &#123;</div><div class="line">        // Recursively flatten arrays (susceptible to call stack limits).</div><div class="line">        baseFlatten(value, depth - 1, predicate, isStrict, result)</div><div class="line">        console.log(value)</div><div class="line">      &#125; else &#123;</div><div class="line">        result.push(...value)</div><div class="line">      &#125;</div><div class="line">    &#125; else if (!isStrict) &#123;</div><div class="line">      result[result.length] = value</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  return result</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://facejiong.github.io/2017/10/16/lodash-hash实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wang Jiong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wangjiong's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/16/lodash-hash实现/" itemprop="url">js-each，map，reduce实现</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-16T02:29:16+08:00">
+                2017-10-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div></pre></td><td class="code"><pre><div class="line">const HASH_UNDEFINED = &apos;__lodash_hash_undefined__&apos;</div><div class="line">class Hash &#123;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Creates a hash object.</div><div class="line">   *</div><div class="line">   * @private</div><div class="line">   * @constructor</div><div class="line">   * @param &#123;Array&#125; [entries] The key-value pairs to cache.</div><div class="line">   */</div><div class="line">  constructor(entries) &#123;</div><div class="line">    let index = -1</div><div class="line">    const length = entries == null ? 0 : entries.length</div><div class="line"></div><div class="line">    this.clear()</div><div class="line">    while (++index &lt; length) &#123;</div><div class="line">      const entry = entries[index]</div><div class="line">      this.set(entry[0], entry[1])</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Removes all key-value entries from the hash.</div><div class="line">   *</div><div class="line">   * @memberOf Hash</div><div class="line">   */</div><div class="line">  clear() &#123;</div><div class="line">    this.__data__ = Object.create(null)</div><div class="line">    this.size = 0</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Removes `key` and its value from the hash.</div><div class="line">   *</div><div class="line">   * @memberOf Hash</div><div class="line">   * @param &#123;Object&#125; hash The hash to modify.</div><div class="line">   * @param &#123;string&#125; key The key of the value to remove.</div><div class="line">   * @returns &#123;boolean&#125; Returns `true` if the entry was removed, else `false`.</div><div class="line">   */</div><div class="line">  delete(key) &#123;</div><div class="line">    const result = this.has(key) &amp;&amp; delete this.__data__[key]</div><div class="line">    this.size -= result ? 1 : 0</div><div class="line">    return result</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Gets the hash value for `key`.</div><div class="line">   *</div><div class="line">   * @memberOf Hash</div><div class="line">   * @param &#123;string&#125; key The key of the value to get.</div><div class="line">   * @returns &#123;*&#125; Returns the entry value.</div><div class="line">   */</div><div class="line">  get(key) &#123;</div><div class="line">    const data = this.__data__</div><div class="line">    const result = data[key]</div><div class="line">    return result === HASH_UNDEFINED ? undefined : result</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Checks if a hash value for `key` exists.</div><div class="line">   *</div><div class="line">   * @memberOf Hash</div><div class="line">   * @param &#123;string&#125; key The key of the entry to check.</div><div class="line">   * @returns &#123;boolean&#125; Returns `true` if an entry for `key` exists, else `false`.</div><div class="line">   */</div><div class="line">  has(key) &#123;</div><div class="line">    const data = this.__data__</div><div class="line">    return data[key] !== undefined</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Sets the hash `key` to `value`.</div><div class="line">   *</div><div class="line">   * @memberOf Hash</div><div class="line">   * @param &#123;string&#125; key The key of the value to set.</div><div class="line">   * @param &#123;*&#125; value The value to set.</div><div class="line">   * @returns &#123;Object&#125; Returns the hash instance.</div><div class="line">   */</div><div class="line">  set(key, value) &#123;</div><div class="line">    const data = this.__data__</div><div class="line">    this.size += this.has(key) ? 0 : 1</div><div class="line">    data[key] = value === undefined ? HASH_UNDEFINED : value</div><div class="line">    return this</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://facejiong.github.io/2017/10/13/nodejs反向代理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1318,301 +1586,6 @@ p(y=0|x) = \frac{1}{1 + e^{(w^{T}x+b)}}
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://facejiong.github.io/2017/06/14/神经网络基础/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Wang Jiong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="wangjiong's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/14/神经网络基础/" itemprop="url">神经网络基础</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-14T15:16:38+08:00">
-                2017-06-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"><p>DNN，Deep Neural Networks，深度神经网络<br>对于人工智能的实现分为两派：一派是自顶向下通过逻辑和符号推导实现，另一类是自底向上通过模拟大脑中的神经网络实现。神经网络是第二派的实现。<br>神经网络由若干神经元组成<br><img src="/2017/06/14/神经网络基础/neuron_networks.png" alt=""></p>
-<h2 id="神经元"><a href="#神经元" class="headerlink" title="神经元"></a>神经元</h2><p><img src="/2017/06/14/神经网络基础/neuron.png" alt=""><br>输入：x1,x2,…xn<br>权重：w1,w2,…wn<br>组合函数：c<br>激活函数：a<br>偏移：b<br>输出：y</p>
-<h2 id="感知机"><a href="#感知机" class="headerlink" title="感知机"></a>感知机</h2><p>神经元最早的起源于上世纪50-60年代，Frank Rosenblatt发明了一种叫感知机的神经元。感知机的输入输出是二进制0或1。<br><img src="/2017/06/14/神经网络基础/perceptron.png" alt=""></p>
-<h2 id="sigmoid神经元"><a href="#sigmoid神经元" class="headerlink" title="sigmoid神经元"></a>sigmoid神经元</h2><p>在使用感知机构建神经网络时，神经元权重和偏移发生很小变化都可能导致输出的剧烈变化。所以引入了sigmoid神经元。sigmoid神经元的输入输出是浮点值。<br>感知机<br><img src="/2017/06/14/神经网络基础/step.png" alt=""><br>sigmoid神经元<br><img src="/2017/06/14/神经网络基础/sigmoid.png" alt=""><br>sigmoid神经元相当于平滑的感知机，意味着当权重和偏移变化时，输出按预期小幅度变化。</p>
-<h2 id="神经网络的结构"><a href="#神经网络的结构" class="headerlink" title="神经网络的结构"></a>神经网络的结构</h2><p>输入层–&gt;隐层–&gt;输出层<br><img src="/2017/06/14/神经网络基础/multilayer.png" alt=""><br>隐层的设计需要考虑层数和时间的平衡。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://facejiong.github.io/2017/06/13/使用tf.contrib.learn快速搭建DNN识别鸢尾花/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Wang Jiong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="wangjiong's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/13/使用tf.contrib.learn快速搭建DNN识别鸢尾花/" itemprop="url">使用tf.contrib.learn快速搭建DNN识别鸢尾花</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-13T21:17:08+08:00">
-                2017-06-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"><p>tf.contrib.learn是TensorFlow提供高级API。下面是使用DNN预测鸢尾花卉数据集的例子。<br>先分析下鸢尾花卉数据集,0/1/2分别代表Setosa,versicolor,virginica三个种类的花</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Sepal.Length（花萼长度）</th>
-<th style="text-align:left">Sepal.Width（花萼宽度）</th>
-<th style="text-align:left">Petal.Length（花瓣长度）</th>
-<th style="text-align:left">Petal.Width（花瓣宽度）</th>
-<th>种类</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">7.9</td>
-<td style="text-align:left">3.8</td>
-<td style="text-align:left">6.4</td>
-<td style="text-align:left">　2.0</td>
-<td>0/1/2</td>
-</tr>
-</tbody>
-</table>
-<p>１、载入数据<br>２、构造神经网络分类器<br>３、利用训练数据拟合模型<br>４、评估模型的精确性<br>５、新的样本分类</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">from __future__ import absolute_import</div><div class="line">from __future__ import division</div><div class="line">from __future__ import print_function</div><div class="line"></div><div class="line">import tensorflow as tf</div><div class="line">import numpy as np</div><div class="line"></div><div class="line">IRIS_TRAINING = &quot;iris_training.csv&quot;</div><div class="line">IRIS_TEST = &quot;iris_test.csv&quot;</div><div class="line"></div><div class="line"># 加载数据集</div><div class="line">training_set = tf.contrib.learn.datasets.base.load_csv_with_header(</div><div class="line">    filename=IRIS_TRAINING,</div><div class="line">    target_dtype=np.int,</div><div class="line">    features_dtype=np.float32)</div><div class="line">test_set = tf.contrib.learn.datasets.base.load_csv_with_header(</div><div class="line">    filename=IRIS_TEST,</div><div class="line">    target_dtype=np.int,</div><div class="line">    features_dtype=np.float32)</div><div class="line"></div><div class="line">print(training_set)</div><div class="line"># 特征</div><div class="line">feature_columns = [tf.contrib.layers.real_valued_column(&quot;&quot;, dimension=4)]</div><div class="line"></div><div class="line"># 构造３层DNN网络，每层分别是10,20,10个节点</div><div class="line">classifier = tf.contrib.learn.DNNClassifier(feature_columns=feature_columns,</div><div class="line">                                            hidden_units=[10, 20, 10],</div><div class="line">                                            n_classes=3,</div><div class="line">                                            model_dir=&quot;/tmp/iris_model&quot;)</div><div class="line"></div><div class="line"># 拟合模型，迭代2000步</div><div class="line">classifier.fit(x=training_set.data,</div><div class="line">               y=training_set.target,</div><div class="line">               steps=2000)</div><div class="line"></div><div class="line"># 计算精度</div><div class="line">accuracy_score = classifier.evaluate(x=test_set.data,</div><div class="line">                                     y=test_set.target)[&quot;accuracy&quot;]</div><div class="line">print(&apos;Accuracy: &#123;0:f&#125;&apos;.format(accuracy_score))</div><div class="line"></div><div class="line"># 对２个新样本预测</div><div class="line">new_samples = np.array(</div><div class="line">    [[6.4, 3.2, 4.5, 1.5], [5.8, 3.1, 5.0, 1.7]], dtype=float)</div><div class="line">y = list(classifier.predict(new_samples, as_iterable=True))</div><div class="line">print(&apos;Predictions: &#123;&#125;&apos;.format(str(y)))</div></pre></td></tr></table></figure>
-<p>输出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Accuracy: 0.966667</div><div class="line">Predictions: [1, 1]</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1662,7 +1635,7 @@ p(y=0|x) = \frac{1}{1 + e^{(w^{T}x+b)}}
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1673,7 +1646,7 @@ p(y=0|x) = \frac{1}{1 + e^{(w^{T}x+b)}}
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1684,7 +1657,7 @@ p(y=0|x) = \frac{1}{1 + e^{(w^{T}x+b)}}
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
