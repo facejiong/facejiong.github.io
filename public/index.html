@@ -265,6 +265,141 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://facejiong.github.io/2017/10/19/d3-color/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wang Jiong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wangjiong's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/19/d3-color/" itemprop="url">d3-color</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-19T03:55:05+08:00">
+                2017-10-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"><p>d3-color支持多种颜色格式，rgb(red,green,blue)，hsl(hue,saturation,lightness)，lab，hcl，cubehelix。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">d3.color(&apos;steelblue&apos;) // At&#123;r: 70, g: 130, b: 180, opacity: 1&#125;</div><div class="line">d3.rgb(&apos;steelblue&apos;) // At&#123;r: 70, g: 130, b: 180, opacity: 1&#125;</div><div class="line">d3.hsl(&apos;steelblue&apos;) // Rt&#123;h: 207.27272727272728, s: 0.44, l: 0.4901960784313726, opacity: 1&#125;</div><div class="line">d3.lab(&apos;steelblue&apos;) // Dt&#123;l: 52.46551718768575, a: -4.0774710123572255, b: -32.19186122981343, opacity: 1&#125;</div><div class="line">d3.hcl(&apos;steelblue&apos;) // Ht&#123;h: 262.78126775909277, c: 32.44906314974561, l: 52.46551718768575, opacity: 1&#125;</div><div class="line">d3.cubehelix(&apos;steelblue&apos;) // Vt&#123;h: 202.84837896488932, s: 0.6273147230777709, l: 0.460784355920337, opacity: 1&#125;</div><div class="line"></div><div class="line">d3.color(&apos;steelblue&apos;).toString() // &quot;rgb(70, 130, 180)&quot;</div></pre></td></tr></table></figure></p>
+<p>rgb,hsl,lab,hcl,cubehelix继承自color<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">export default function(constructor, factory, prototype) &#123;</div><div class="line">  constructor.prototype = factory.prototype = prototype;</div><div class="line">  prototype.constructor = constructor;</div><div class="line">&#125;</div><div class="line">// 返回parent.prototype的copy对象，该对象同时继承definition的属性和方法</div><div class="line">export function extend(parent, definition) &#123;</div><div class="line">  var prototype = Object.create(parent.prototype);</div><div class="line">  for (var key in definition) prototype[key] = definition[key];</div><div class="line">  return prototype;</div><div class="line">&#125;</div><div class="line"></div><div class="line">export function Color() &#123;&#125;</div><div class="line"></div><div class="line">export function rgb(r, g, b, opacity) &#123;</div><div class="line">  return arguments.length === 1 ? rgbConvert(r) : new Rgb(r, g, b, opacity == null ? 1 : opacity);</div><div class="line">&#125;</div><div class="line"></div><div class="line">export function Rgb(r, g, b, opacity) &#123;</div><div class="line">  this.r = +r;</div><div class="line">  this.g = +g;</div><div class="line">  this.b = +b;</div><div class="line">  this.opacity = +opacity;</div><div class="line">&#125;</div><div class="line"></div><div class="line">define(Rgb, rgb, extend(Color, &#123;</div><div class="line">  brighter: function(k) &#123;</div><div class="line">    k = k == null ? brighter : Math.pow(brighter, k);</div><div class="line">    return new Rgb(this.r * k, this.g * k, this.b * k, this.opacity);</div><div class="line">  &#125;,</div><div class="line">  darker: function(k) &#123;</div><div class="line">    k = k == null ? darker : Math.pow(darker, k);</div><div class="line">    return new Rgb(this.r * k, this.g * k, this.b * k, this.opacity);</div><div class="line">  &#125;,</div><div class="line">  rgb: function() &#123;</div><div class="line">    return this;</div><div class="line">  &#125;,</div><div class="line">  // 判断颜色是否有效</div><div class="line">  displayable: function() &#123;</div><div class="line">    return (0 &lt;= this.r &amp;&amp; this.r &lt;= 255)</div><div class="line">        &amp;&amp; (0 &lt;= this.g &amp;&amp; this.g &lt;= 255)</div><div class="line">        &amp;&amp; (0 &lt;= this.b &amp;&amp; this.b &lt;= 255)</div><div class="line">        &amp;&amp; (0 &lt;= this.opacity &amp;&amp; this.opacity &lt;= 1);</div><div class="line">  &#125;,</div><div class="line">  toString: function() &#123;</div><div class="line">    var a = this.opacity; a = isNaN(a) ? 1 : Math.max(0, Math.min(1, a));</div><div class="line">    return (a === 1 ? &quot;rgb(&quot; : &quot;rgba(&quot;)</div><div class="line">        + Math.max(0, Math.min(255, Math.round(this.r) || 0)) + &quot;, &quot;</div><div class="line">        + Math.max(0, Math.min(255, Math.round(this.g) || 0)) + &quot;, &quot;</div><div class="line">        + Math.max(0, Math.min(255, Math.round(this.b) || 0))</div><div class="line">        + (a === 1 ? &quot;)&quot; : &quot;, &quot; + a + &quot;)&quot;);</div><div class="line">  &#125;</div><div class="line">&#125;));</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://facejiong.github.io/2017/10/19/d3-dispatch/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -533,140 +668,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://facejiong.github.io/2017/10/16/lodash-hash实现/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Wang Jiong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="wangjiong's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/16/lodash-hash实现/" itemprop="url">js-each，map，reduce实现</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-16T02:29:16+08:00">
-                2017-10-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div></pre></td><td class="code"><pre><div class="line">const HASH_UNDEFINED = &apos;__lodash_hash_undefined__&apos;</div><div class="line">class Hash &#123;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Creates a hash object.</div><div class="line">   *</div><div class="line">   * @private</div><div class="line">   * @constructor</div><div class="line">   * @param &#123;Array&#125; [entries] The key-value pairs to cache.</div><div class="line">   */</div><div class="line">  constructor(entries) &#123;</div><div class="line">    let index = -1</div><div class="line">    const length = entries == null ? 0 : entries.length</div><div class="line"></div><div class="line">    this.clear()</div><div class="line">    while (++index &lt; length) &#123;</div><div class="line">      const entry = entries[index]</div><div class="line">      this.set(entry[0], entry[1])</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Removes all key-value entries from the hash.</div><div class="line">   *</div><div class="line">   * @memberOf Hash</div><div class="line">   */</div><div class="line">  clear() &#123;</div><div class="line">    this.__data__ = Object.create(null)</div><div class="line">    this.size = 0</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Removes `key` and its value from the hash.</div><div class="line">   *</div><div class="line">   * @memberOf Hash</div><div class="line">   * @param &#123;Object&#125; hash The hash to modify.</div><div class="line">   * @param &#123;string&#125; key The key of the value to remove.</div><div class="line">   * @returns &#123;boolean&#125; Returns `true` if the entry was removed, else `false`.</div><div class="line">   */</div><div class="line">  delete(key) &#123;</div><div class="line">    const result = this.has(key) &amp;&amp; delete this.__data__[key]</div><div class="line">    this.size -= result ? 1 : 0</div><div class="line">    return result</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Gets the hash value for `key`.</div><div class="line">   *</div><div class="line">   * @memberOf Hash</div><div class="line">   * @param &#123;string&#125; key The key of the value to get.</div><div class="line">   * @returns &#123;*&#125; Returns the entry value.</div><div class="line">   */</div><div class="line">  get(key) &#123;</div><div class="line">    const data = this.__data__</div><div class="line">    const result = data[key]</div><div class="line">    return result === HASH_UNDEFINED ? undefined : result</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Checks if a hash value for `key` exists.</div><div class="line">   *</div><div class="line">   * @memberOf Hash</div><div class="line">   * @param &#123;string&#125; key The key of the entry to check.</div><div class="line">   * @returns &#123;boolean&#125; Returns `true` if an entry for `key` exists, else `false`.</div><div class="line">   */</div><div class="line">  has(key) &#123;</div><div class="line">    const data = this.__data__</div><div class="line">    return data[key] !== undefined</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Sets the hash `key` to `value`.</div><div class="line">   *</div><div class="line">   * @memberOf Hash</div><div class="line">   * @param &#123;string&#125; key The key of the value to set.</div><div class="line">   * @param &#123;*&#125; value The value to set.</div><div class="line">   * @returns &#123;Object&#125; Returns the hash instance.</div><div class="line">   */</div><div class="line">  set(key, value) &#123;</div><div class="line">    const data = this.__data__</div><div class="line">    this.size += this.has(key) ? 0 : 1</div><div class="line">    data[key] = value === undefined ? HASH_UNDEFINED : value</div><div class="line">    return this</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://facejiong.github.io/2017/10/16/lodash-flattern/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -758,6 +759,140 @@
         
           
             <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">// 减少一级数组嵌套</div><div class="line">function flatten(array) &#123;</div><div class="line">  const length = array == null ? 0 : array.length</div><div class="line">  return length ? baseFlatten(array, 1) : []</div><div class="line">&#125;</div><div class="line">// 减少到一维</div><div class="line">function flattenDeep(array) &#123;</div><div class="line">  const length = array == null ? 0 : array.length</div><div class="line">  return length ? baseFlatten(array, INFINITY) : []</div><div class="line">&#125;</div><div class="line">// 减少depth维</div><div class="line">function flattenDepth(array, depth) &#123;</div><div class="line">  const length = array == null ? 0 : array.length</div><div class="line">  if (!length) &#123;</div><div class="line">    return []</div><div class="line">  &#125;</div><div class="line">  depth = depth === undefined ? 1 : +depth</div><div class="line">  return baseFlatten(array, depth)</div><div class="line">&#125;</div><div class="line">/**</div><div class="line"> * @private</div><div class="line"> * @param &#123;Array&#125; array 需要处理的数组</div><div class="line"> * @param &#123;number&#125; depth 需要减少的维度</div><div class="line"> * @param &#123;boolean&#125; [predicate=isFlattenable] 每个元素回调函数，判断是否一维，默认isFlattenable</div><div class="line"> * @param &#123;boolean&#125; [isStrict] Restrict to values that pass `predicate` checks.</div><div class="line"> * @param &#123;Array&#125; [result=[]] 初始结果值</div><div class="line"> * @returns &#123;Array&#125; 返回结果</div><div class="line"> */</div><div class="line">function baseFlatten(array, depth, predicate, isStrict, result) &#123;</div><div class="line">  predicate || (predicate = isFlattenable)</div><div class="line">  result || (result = [])</div><div class="line"></div><div class="line">  if (array == null) &#123;</div><div class="line">    return result</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  for (const value of array) &#123;</div><div class="line">    if (depth &gt; 0 &amp;&amp; predicate(value)) &#123;</div><div class="line">      if (depth &gt; 1) &#123;</div><div class="line">        // Recursively flatten arrays (susceptible to call stack limits).</div><div class="line">        baseFlatten(value, depth - 1, predicate, isStrict, result)</div><div class="line">        console.log(value)</div><div class="line">      &#125; else &#123;</div><div class="line">        result.push(...value)</div><div class="line">      &#125;</div><div class="line">    &#125; else if (!isStrict) &#123;</div><div class="line">      result[result.length] = value</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  return result</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://facejiong.github.io/2017/10/16/lodash-hash实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wang Jiong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wangjiong's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/16/lodash-hash实现/" itemprop="url">js-each，map，reduce实现</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-16T02:29:16+08:00">
+                2017-10-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div></pre></td><td class="code"><pre><div class="line">const HASH_UNDEFINED = &apos;__lodash_hash_undefined__&apos;</div><div class="line">class Hash &#123;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Creates a hash object.</div><div class="line">   *</div><div class="line">   * @private</div><div class="line">   * @constructor</div><div class="line">   * @param &#123;Array&#125; [entries] The key-value pairs to cache.</div><div class="line">   */</div><div class="line">  constructor(entries) &#123;</div><div class="line">    let index = -1</div><div class="line">    const length = entries == null ? 0 : entries.length</div><div class="line"></div><div class="line">    this.clear()</div><div class="line">    while (++index &lt; length) &#123;</div><div class="line">      const entry = entries[index]</div><div class="line">      this.set(entry[0], entry[1])</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Removes all key-value entries from the hash.</div><div class="line">   *</div><div class="line">   * @memberOf Hash</div><div class="line">   */</div><div class="line">  clear() &#123;</div><div class="line">    this.__data__ = Object.create(null)</div><div class="line">    this.size = 0</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Removes `key` and its value from the hash.</div><div class="line">   *</div><div class="line">   * @memberOf Hash</div><div class="line">   * @param &#123;Object&#125; hash The hash to modify.</div><div class="line">   * @param &#123;string&#125; key The key of the value to remove.</div><div class="line">   * @returns &#123;boolean&#125; Returns `true` if the entry was removed, else `false`.</div><div class="line">   */</div><div class="line">  delete(key) &#123;</div><div class="line">    const result = this.has(key) &amp;&amp; delete this.__data__[key]</div><div class="line">    this.size -= result ? 1 : 0</div><div class="line">    return result</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Gets the hash value for `key`.</div><div class="line">   *</div><div class="line">   * @memberOf Hash</div><div class="line">   * @param &#123;string&#125; key The key of the value to get.</div><div class="line">   * @returns &#123;*&#125; Returns the entry value.</div><div class="line">   */</div><div class="line">  get(key) &#123;</div><div class="line">    const data = this.__data__</div><div class="line">    const result = data[key]</div><div class="line">    return result === HASH_UNDEFINED ? undefined : result</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Checks if a hash value for `key` exists.</div><div class="line">   *</div><div class="line">   * @memberOf Hash</div><div class="line">   * @param &#123;string&#125; key The key of the entry to check.</div><div class="line">   * @returns &#123;boolean&#125; Returns `true` if an entry for `key` exists, else `false`.</div><div class="line">   */</div><div class="line">  has(key) &#123;</div><div class="line">    const data = this.__data__</div><div class="line">    return data[key] !== undefined</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  /**</div><div class="line">   * Sets the hash `key` to `value`.</div><div class="line">   *</div><div class="line">   * @memberOf Hash</div><div class="line">   * @param &#123;string&#125; key The key of the value to set.</div><div class="line">   * @param &#123;*&#125; value The value to set.</div><div class="line">   * @returns &#123;Object&#125; Returns the hash instance.</div><div class="line">   */</div><div class="line">  set(key, value) &#123;</div><div class="line">    const data = this.__data__</div><div class="line">    this.size += this.has(key) ? 0 : 1</div><div class="line">    data[key] = value === undefined ? HASH_UNDEFINED : value</div><div class="line">    return this</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
           
         
@@ -1425,145 +1560,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://facejiong.github.io/2017/06/16/机器学习-参数求解的三种方法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Wang Jiong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="wangjiong's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/16/机器学习-参数求解的三种方法/" itemprop="url">机器学习-参数求解的三种方法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-16T13:42:13+08:00">
-                2017-06-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"><p>机器学习参数求解最常用的三种方法：最小二乘法，梯度下降法，最速牛顿法。</p>
-<h2 id="最小二乘法"><a href="#最小二乘法" class="headerlink" title="最小二乘法"></a>最小二乘法</h2><p>用偏差平方和最小的原则拟合曲线，最小二乘法。<br><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>y</mi><mo>=</mo><msub><mi>a</mi><mrow><mn>0</mn></mrow></msub><mo>+</mo><msub><mi>a</mi><mrow><mn>1</mn></mrow></msub><mi>x</mi><mo>+</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo>+</mo><msub><mi>a</mi><mrow><mi>k</mi></mrow></msub><msup><mi>x</mi><mrow><mi>k</mi></mrow></msup></mrow><annotation encoding="application/x-tex">y = a_{0} + a_{1}x + ... + a_{k}x^{k}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.849108em;"></span><span class="strut bottom" style="height:1.043548em;vertical-align:-0.19444em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mrel">=</span><span class="mord"><span class="mord mathit">a</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathrm">0</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mbin">+</span><span class="mord"><span class="mord mathit">a</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathrm">1</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mord mathit">x</span><span class="mbin">+</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mbin">+</span><span class="mord"><span class="mord mathit">a</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit" style="margin-right:0.03148em;">k</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mord"><span class="mord mathit">x</span><span class="vlist"><span style="top:-0.363em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit" style="margin-right:0.03148em;">k</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span><br>假设多项式为<br><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>y</mi><mo>=</mo><msub><mi>a</mi><mrow><mn>0</mn></mrow></msub><mo>+</mo><msub><mi>a</mi><mrow><mn>1</mn></mrow></msub><mi>x</mi><mo>+</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo>+</mo><msub><mi>a</mi><mrow><mi>k</mi></mrow></msub><msup><mi>x</mi><mrow><mi>k</mi></mrow></msup></mrow><annotation encoding="application/x-tex">y = a_{0} + a_{1}x + ... + a_{k}x^{k}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.849108em;"></span><span class="strut bottom" style="height:1.043548em;vertical-align:-0.19444em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mrel">=</span><span class="mord"><span class="mord mathit">a</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathrm">0</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mbin">+</span><span class="mord"><span class="mord mathit">a</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathrm">1</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mord mathit">x</span><span class="mbin">+</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mbin">+</span><span class="mord"><span class="mord mathit">a</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit" style="margin-right:0.03148em;">k</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mord"><span class="mord mathit">x</span><span class="vlist"><span style="top:-0.363em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit" style="margin-right:0.03148em;">k</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span><br>求偏差平方和，即各已知点<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><msub><mi>x</mi><mrow><mi>i</mi></mrow></msub><mo separator="true">,</mo><msub><mi>y</mi><mrow><mi>i</mi></mrow></msub><mo>)</mo></mrow><annotation encoding="application/x-tex">(x_{i}, y_{i})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mopen">(</span><span class="mord"><span class="mord mathit">x</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">i</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mpunct">,</span><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.03588em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">i</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mclose">)</span></span></span></span>到这条曲线的距离之和<br>
-
-<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>R</mi><mrow><mn>2</mn></mrow></msup><mo>=</mo><msubsup><mo>∑</mo><mrow><mi>n</mi></mrow><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow></msubsup><mo>[</mo><msub><mi>y</mi><mrow><mi>i</mi></mrow></msub><mo>−</mo><mo>(</mo><msub><mi>a</mi><mrow><mn>0</mn></mrow></msub><mo>+</mo><msub><mi>a</mi><mrow><mn>1</mn></mrow></msub><msub><mi>x</mi><mrow><mn>1</mn></mrow></msub><mo>+</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo>+</mo><msub><mi>a</mi><mrow><mi>k</mi></mrow></msub><msubsup><mi>x</mi><mrow><mi>i</mi></mrow><mrow><mi>k</mi></mrow></msubsup><mo>)</mo><msup><mo>]</mo><mrow><mn>2</mn></mrow></msup></mrow><annotation encoding="application/x-tex">R^{2} = \sum_{n}^{i=1} [y_{i} - (a_{0} + a_{1}x_{1} + ... + a_{k}x_{i}^{k})]^{2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.849108em;"></span><span class="strut bottom" style="height:1.149118em;vertical-align:-0.30001em;"></span><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.00773em;">R</span><span class="vlist"><span style="top:-0.363em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathrm">2</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mrel">=</span><span class="mop"><span class="op-symbol small-op mop" style="top:-0.0000050000000000050004em;">∑</span><span class="vlist"><span style="top:0.30001em;margin-left:0em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">n</span></span></span></span><span style="top:-0.364em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit">i</span><span class="mrel">=</span><span class="mord mathrm">1</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mopen">[</span><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.03588em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">i</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mbin">−</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">a</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathrm">0</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mbin">+</span><span class="mord"><span class="mord mathit">a</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathrm">1</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mord"><span class="mord mathit">x</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathrm">1</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mbin">+</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mbin">+</span><span class="mord"><span class="mord mathit">a</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit" style="margin-right:0.03148em;">k</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mord"><span class="mord mathit">x</span><span class="vlist"><span style="top:0.258664em;margin-left:0em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">i</span></span></span></span><span style="top:-0.363em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit" style="margin-right:0.03148em;">k</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mclose">)</span><span class="mclose"><span class="mclose">]</span><span class="vlist"><span style="top:-0.363em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathrm">2</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span><br>我们的目的是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>R</mi><mrow><mn>2</mn></mrow></msup></mrow><annotation encoding="application/x-tex">R^{2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8141079999999999em;"></span><span class="strut bottom" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit" style="margin-right:0.00773em;">R</span><span class="vlist"><span style="top:-0.363em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathrm">2</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span>最小，对<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>a</mi><mrow><mi>i</mi></mrow></msub></mrow><annotation encoding="application/x-tex">a_{i}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="base textstyle uncramped"><span class="mord"><span class="mord mathit">a</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">i</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span>求偏导得<br>
-
-<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>−</mo><mn>2</mn><msubsup><mo>∑</mo><mrow><mi>n</mi></mrow><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow></msubsup><mo>[</mo><mi>y</mi><mo>−</mo><mo>(</mo><msub><mi>a</mi><mrow><mn>0</mn></mrow></msub><mo>+</mo><msub><mi>a</mi><mrow><mn>1</mn></mrow></msub><msub><mi>x</mi><mrow><mn>1</mn></mrow></msub><mo>+</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo>+</mo><msub><mi>a</mi><mrow><mi>k</mi></mrow></msub><msubsup><mi>x</mi><mrow><mi>i</mi></mrow><mrow><mi>k</mi></mrow></msubsup><mo>)</mo><mo>]</mo></mrow><annotation encoding="application/x-tex">-2 \sum_{n}^{i=1} [y - (a_{0} + a_{1}x_{1} + ... + a_{k}x_{i}^{k})]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.849108em;"></span><span class="strut bottom" style="height:1.149118em;vertical-align:-0.30001em;"></span><span class="base textstyle uncramped"><span class="mord">−</span><span class="mord mathrm">2</span><span class="mop"><span class="op-symbol small-op mop" style="top:-0.0000050000000000050004em;">∑</span><span class="vlist"><span style="top:0.30001em;margin-left:0em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">n</span></span></span></span><span style="top:-0.364em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit">i</span><span class="mrel">=</span><span class="mord mathrm">1</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mopen">[</span><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mbin">−</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">a</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathrm">0</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mbin">+</span><span class="mord"><span class="mord mathit">a</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathrm">1</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mord"><span class="mord mathit">x</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathrm">1</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mbin">+</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mbin">+</span><span class="mord"><span class="mord mathit">a</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit" style="margin-right:0.03148em;">k</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mord"><span class="mord mathit">x</span><span class="vlist"><span style="top:0.258664em;margin-left:0em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">i</span></span></span></span><span style="top:-0.363em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit" style="margin-right:0.03148em;">k</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mclose">)</span><span class="mclose">]</span></span></span></span></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1613,7 +1609,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
