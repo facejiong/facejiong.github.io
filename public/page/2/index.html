@@ -265,6 +265,258 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://facejiong.github.io/2017/06/28/react-router源码分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wang Jiong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wangjiong's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/28/react-router源码分析/" itemprop="url">react-router源码分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-28T10:03:47+08:00">
+                2017-06-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/react/" itemprop="url" rel="index">
+                    <span itemprop="name">react</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"><p>版本是master</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div></pre></td><td class="code"><pre><div class="line">import React from &apos;react&apos;</div><div class="line">import &#123;</div><div class="line">  BrowserRouter as Router,</div><div class="line">  Route,</div><div class="line">  Link</div><div class="line">&#125; from &apos;react-router-dom&apos;</div><div class="line"></div><div class="line">const Home = () =&gt; (</div><div class="line">  &lt;div&gt;</div><div class="line">    &lt;h2&gt;Home&lt;/h2&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">)</div><div class="line"></div><div class="line">const About = () =&gt; (</div><div class="line">  &lt;div&gt;</div><div class="line">    &lt;h2&gt;About&lt;/h2&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">)</div><div class="line"></div><div class="line">const AboutAuthor = () =&gt; (</div><div class="line">  &lt;div&gt;</div><div class="line">    &lt;h2&gt;AboutAuthor&lt;/h2&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">)</div><div class="line"></div><div class="line">const AboutTopic = () =&gt; (</div><div class="line">  &lt;div&gt;</div><div class="line">    &lt;h2&gt;AboutTopic&lt;/h2&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">)</div><div class="line"></div><div class="line">const Topic = (&#123; match &#125;) =&gt; (</div><div class="line">  &lt;div&gt;</div><div class="line">    &lt;h3&gt;&#123;match.params.topicId&#125;&lt;/h3&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">)</div><div class="line"></div><div class="line">const Topics = (&#123; match &#125;) =&gt; (</div><div class="line">  &lt;div&gt;</div><div class="line">    &lt;h2&gt;Topics&lt;/h2&gt;</div><div class="line">    &lt;ul&gt;</div><div class="line">      &lt;li&gt;</div><div class="line">        &lt;Link to=&#123;`$&#123;match.url&#125;/rendering`&#125;&gt;</div><div class="line">          Rendering with React</div><div class="line">        &lt;/Link&gt;</div><div class="line">      &lt;/li&gt;</div><div class="line">      &lt;li&gt;</div><div class="line">        &lt;Link to=&#123;`$&#123;match.url&#125;/components`&#125;&gt;</div><div class="line">          Components</div><div class="line">        &lt;/Link&gt;</div><div class="line">      &lt;/li&gt;</div><div class="line">      &lt;li&gt;</div><div class="line">        &lt;Link to=&#123;`$&#123;match.url&#125;/props-v-state`&#125;&gt;</div><div class="line">          Props v. State</div><div class="line">        &lt;/Link&gt;</div><div class="line">      &lt;/li&gt;</div><div class="line">    &lt;/ul&gt;</div><div class="line"></div><div class="line">    &lt;Route path=&#123;`$&#123;match.url&#125;/:topicId`&#125; component=&#123;Topic&#125;/&gt;</div><div class="line">    &lt;Route exact path=&#123;match.url&#125; render=&#123;() =&gt; (</div><div class="line">      &lt;h3&gt;Please select a topic.&lt;/h3&gt;</div><div class="line">    )&#125;/&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">)</div><div class="line"></div><div class="line">const BasicExample = () =&gt; (</div><div class="line">  &lt;Router&gt;</div><div class="line">    &lt;div&gt;</div><div class="line">      &lt;ul&gt;</div><div class="line">        &lt;li&gt;&lt;Link to=&quot;/&quot;&gt;Home&lt;/Link&gt;&lt;/li&gt;</div><div class="line">        &lt;li&gt;&lt;Link to=&quot;/about&quot;&gt;About&lt;/Link&gt;&lt;/li&gt;</div><div class="line">        &lt;li&gt;&lt;Link to=&quot;/topics&quot;&gt;Topics&lt;/Link&gt;&lt;/li&gt;</div><div class="line">      &lt;/ul&gt;</div><div class="line"></div><div class="line">      &lt;hr/&gt;</div><div class="line"></div><div class="line">      &lt;Route exact path=&quot;/&quot; component=&#123;Home&#125;/&gt;</div><div class="line">      &lt;Route path=&quot;/about&quot; component=&#123;About&#125;/&gt;</div><div class="line">      &lt;Route path=&quot;/topics&quot; component=&#123;Topics&#125;/&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  &lt;/Router&gt;</div><div class="line">)</div><div class="line">export default BasicExample</div></pre></td></tr></table></figure>
+<p>Router本身是一个react组件，这点也可以从源码中看出来</p>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><h3 id="Router-Component"><a href="#Router-Component" class="headerlink" title="Router Component"></a>Router Component</h3><p>history用于取location，<br>state的match存储了一个有关当前pathname的对象，Router的children是Route，用于存储要渲染的Component，判断该Component是否渲染是在Route内判断的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div></pre></td><td class="code"><pre><div class="line">import warning from &apos;warning&apos;</div><div class="line">import invariant from &apos;invariant&apos;</div><div class="line">import React from &apos;react&apos;</div><div class="line">import PropTypes from &apos;prop-types&apos;</div><div class="line"></div><div class="line">/**</div><div class="line"> * The public API for putting history on context.</div><div class="line"> */</div><div class="line">class Router extends React.Component &#123;</div><div class="line">  static propTypes = &#123;</div><div class="line">    history: PropTypes.object.isRequired,</div><div class="line">    children: PropTypes.node</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  static contextTypes = &#123;</div><div class="line">    router: PropTypes.object</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  static childContextTypes = &#123;</div><div class="line">    router: PropTypes.object.isRequired</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  getChildContext() &#123;</div><div class="line">    return &#123;</div><div class="line">      router: &#123;</div><div class="line">        ...this.context.router,</div><div class="line">        history: this.props.history,</div><div class="line">        route: &#123;</div><div class="line">          location: this.props.history.location,</div><div class="line">          match: this.state.match</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  state = &#123;</div><div class="line">    match: this.computeMatch(this.props.history.location.pathname)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  computeMatch(pathname) &#123;</div><div class="line">    return &#123;</div><div class="line">      path: &apos;/&apos;,</div><div class="line">      url: &apos;/&apos;,</div><div class="line">      params: &#123;&#125;,</div><div class="line">      isExact: pathname === &apos;/&apos;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  componentWillMount() &#123;</div><div class="line">    const &#123; children, history &#125; = this.props</div><div class="line"></div><div class="line">    invariant(</div><div class="line">      children == null || React.Children.count(children) === 1,</div><div class="line">      &apos;A &lt;Router&gt; may have only one child element&apos;</div><div class="line">    )</div><div class="line"></div><div class="line">    // Do this here so we can setState when a &lt;Redirect&gt; changes the</div><div class="line">    // location in componentWillMount. This happens e.g. when doing</div><div class="line">    // server rendering using a &lt;StaticRouter&gt;.</div><div class="line">    this.unlisten = history.listen(() =&gt; &#123;</div><div class="line">      this.setState(&#123;</div><div class="line">        match: this.computeMatch(history.location.pathname)</div><div class="line">      &#125;)</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  componentWillReceiveProps(nextProps) &#123;</div><div class="line">    warning(</div><div class="line">      this.props.history === nextProps.history,</div><div class="line">      &apos;You cannot change &lt;Router history&gt;&apos;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  componentWillUnmount() &#123;</div><div class="line">    this.unlisten()</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    const &#123; children &#125; = this.props</div><div class="line">    return children ? React.Children.only(children) : null</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">export default Router</div></pre></td></tr></table></figure></p>
+<h3 id="Route-Component"><a href="#Route-Component" class="headerlink" title="Route Component"></a>Route Component</h3><p>Route用于匹配一个路径并渲染Component<br><img src="/2017/06/28/react-router源码分析/route渲染流程图.png" alt="route渲染流程图"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div></pre></td><td class="code"><pre><div class="line">import warning from &apos;warning&apos;</div><div class="line">import React from &apos;react&apos;</div><div class="line">import PropTypes from &apos;prop-types&apos;</div><div class="line">import matchPath from &apos;./matchPath&apos;</div><div class="line"></div><div class="line">/**</div><div class="line"> * The public API for matching a single path and rendering.</div><div class="line"> */</div><div class="line">class Route extends React.Component &#123;</div><div class="line">  static propTypes = &#123;</div><div class="line">    computedMatch: PropTypes.object, // private, from &lt;Switch&gt;</div><div class="line">    path: PropTypes.string,</div><div class="line">    exact: PropTypes.bool,</div><div class="line">    strict: PropTypes.bool,</div><div class="line">    component: PropTypes.func,</div><div class="line">    render: PropTypes.func,</div><div class="line">    children: PropTypes.oneOfType([</div><div class="line">      PropTypes.func,</div><div class="line">      PropTypes.node</div><div class="line">    ]),</div><div class="line">    location: PropTypes.object</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  static contextTypes = &#123;</div><div class="line">    router: PropTypes.shape(&#123;</div><div class="line">      history: PropTypes.object.isRequired,</div><div class="line">      route: PropTypes.object.isRequired,</div><div class="line">      staticContext: PropTypes.object</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  static childContextTypes = &#123;</div><div class="line">    router: PropTypes.object.isRequired</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  getChildContext() &#123;</div><div class="line">    return &#123;</div><div class="line">      router: &#123;</div><div class="line">        ...this.context.router,</div><div class="line">        route: &#123;</div><div class="line">          location: this.props.location || this.context.router.route.location,</div><div class="line">          match: this.state.match</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  state = &#123;</div><div class="line">    match: this.computeMatch(this.props, this.context.router)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  computeMatch(&#123; computedMatch, location, path, strict, exact &#125;, &#123; route &#125;) &#123;</div><div class="line">    if (computedMatch)</div><div class="line">      return computedMatch // &lt;Switch&gt; already computed the match for us</div><div class="line"></div><div class="line">    const pathname = (location || route.location).pathname</div><div class="line"></div><div class="line">    return path ? matchPath(pathname, &#123; path, strict, exact &#125;) : route.match</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  componentWillMount() &#123;</div><div class="line">    const &#123; component, render, children &#125; = this.props</div><div class="line"></div><div class="line">    warning(</div><div class="line">      !(component &amp;&amp; render),</div><div class="line">      &apos;You should not use &lt;Route component&gt; and &lt;Route render&gt; in the same route; &lt;Route render&gt; will be ignored&apos;</div><div class="line">    )</div><div class="line"></div><div class="line">    warning(</div><div class="line">      !(component &amp;&amp; children),</div><div class="line">      &apos;You should not use &lt;Route component&gt; and &lt;Route children&gt; in the same route; &lt;Route children&gt; will be ignored&apos;</div><div class="line">    )</div><div class="line"></div><div class="line">    warning(</div><div class="line">      !(render &amp;&amp; children),</div><div class="line">      &apos;You should not use &lt;Route render&gt; and &lt;Route children&gt; in the same route; &lt;Route children&gt; will be ignored&apos;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  componentWillReceiveProps(nextProps, nextContext) &#123;</div><div class="line">    warning(</div><div class="line">      !(nextProps.location &amp;&amp; !this.props.location),</div><div class="line">      &apos;&lt;Route&gt; elements should not change from uncontrolled to controlled (or vice versa). You initially used no &quot;location&quot; prop and then provided one on a subsequent render.&apos;</div><div class="line">    )</div><div class="line"></div><div class="line">    warning(</div><div class="line">      !(!nextProps.location &amp;&amp; this.props.location),</div><div class="line">      &apos;&lt;Route&gt; elements should not change from controlled to uncontrolled (or vice versa). You provided a &quot;location&quot; prop initially but omitted it on a subsequent render.&apos;</div><div class="line">    )</div><div class="line"></div><div class="line">    this.setState(&#123;</div><div class="line">      match: this.computeMatch(nextProps, nextContext.router)</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    const &#123; match &#125; = this.state</div><div class="line">    const &#123; children, component, render &#125; = this.props</div><div class="line">    const &#123; history, route, staticContext &#125; = this.context.router</div><div class="line">    const location = this.props.location || route.location</div><div class="line">    const props = &#123; match, location, history, staticContext &#125;</div><div class="line"></div><div class="line">    return (</div><div class="line">      component ? ( // 先判断Route是否有component props</div><div class="line">        // 判断是否匹配</div><div class="line">        match ? React.createElement(component, props) : null</div><div class="line">      ) : render ? ( // render prop is next, only called if there&apos;s a match</div><div class="line">        match ? render(props) : null</div><div class="line">      ) : children ? ( // children come last, always called</div><div class="line">        typeof children === &apos;function&apos; ? (</div><div class="line">          children(props)</div><div class="line">        ) : !Array.isArray(children) || children.length ? ( // Preact defaults to empty children array</div><div class="line">          React.Children.only(children)</div><div class="line">        ) : (</div><div class="line">          null</div><div class="line">        )</div><div class="line">      ) : (</div><div class="line">        null</div><div class="line">      )</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">export default Route</div></pre></td></tr></table></figure>
+<h3 id="matchPath匹配路径"><a href="#matchPath匹配路径" class="headerlink" title="matchPath匹配路径"></a>matchPath匹配路径</h3><p>1、path-to-regexp把路径path转换成正则对象，并存储<br>2、正则匹配<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line">import pathToRegexp from &apos;path-to-regexp&apos;</div><div class="line">// var re = pathToRegexp(&apos;/foo/:bar&apos;, keys)</div><div class="line">// re = /^\/foo\/([^\/]+?)\/?$/i</div><div class="line">const patternCache = &#123;&#125;</div><div class="line">const cacheLimit = 10000</div><div class="line">let cacheCount = 0</div><div class="line"></div><div class="line">const compilePath = (pattern, options) =&gt; &#123;</div><div class="line">  const cacheKey = `$&#123;options.end&#125;$&#123;options.strict&#125;`</div><div class="line">  const cache = patternCache[cacheKey] || (patternCache[cacheKey] = &#123;&#125;)</div><div class="line"></div><div class="line">  if (cache[pattern])</div><div class="line">    return cache[pattern]</div><div class="line"></div><div class="line">  const keys = []</div><div class="line">  const re = pathToRegexp(pattern, keys, options)</div><div class="line">  const compiledPattern = &#123; re, keys &#125;</div><div class="line"></div><div class="line">  if (cacheCount &lt; cacheLimit) &#123;</div><div class="line">    cache[pattern] = compiledPattern</div><div class="line">    cacheCount++</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  return compiledPattern</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Public API for matching a URL pathname to a path pattern.</div><div class="line"> */</div><div class="line">const matchPath = (pathname, options = &#123;&#125;) =&gt; &#123;</div><div class="line">  if (typeof options === &apos;string&apos;)</div><div class="line">    options = &#123; path: options &#125;</div><div class="line"></div><div class="line">  const &#123; path = &apos;/&apos;, exact = false, strict = false &#125; = options</div><div class="line">  const &#123; re, keys &#125; = compilePath(path, &#123; end: exact, strict &#125;)</div><div class="line">  // 匹配路径</div><div class="line">  const match = re.exec(pathname)</div><div class="line"></div><div class="line">  if (!match)</div><div class="line">    return null</div><div class="line"></div><div class="line">  const [ url, ...values ] = match</div><div class="line">  const isExact = pathname === url</div><div class="line"></div><div class="line">  if (exact &amp;&amp; !isExact)</div><div class="line">    return null</div><div class="line"></div><div class="line">  return &#123;</div><div class="line">    path, // the path pattern used to match</div><div class="line">    url: path === &apos;/&apos; &amp;&amp; url === &apos;&apos; ? &apos;/&apos; : url, // the matched portion of the URL</div><div class="line">    isExact, // whether or not we matched exactly</div><div class="line">    params: keys.reduce((memo, key, index) =&gt; &#123;</div><div class="line">      memo[key.name] = values[index]</div><div class="line">      return memo</div><div class="line">    &#125;, &#123;&#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">export default matchPath</div></pre></td></tr></table></figure></p>
+<h3 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h3><p>Prompt：用于页面跳转时的提示<br>Redirect：在组件内跳转location<br>StaticRouter：用于服务器端渲染</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://facejiong.github.io/2017/06/22/内存管理速成/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wang Jiong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wangjiong's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/22/内存管理速成/" itemprop="url">内存管理速成</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-22T14:10:59+08:00">
+                2017-06-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://facejiong.github.io/2017/06/16/机器学习-参数求解的三种方法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1440,349 +1692,6 @@ p(y=0|x) = \frac{1}{1 + e^{(w^{T}x+b)}}
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://facejiong.github.io/2017/06/06/机器学习-朴素贝叶斯/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Wang Jiong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="wangjiong's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/06/机器学习-朴素贝叶斯/" itemprop="url">机器学习-朴素贝叶斯</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-06T19:23:52+08:00">
-                2017-06-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"><h2 id="贝叶斯"><a href="#贝叶斯" class="headerlink" title="贝叶斯"></a>贝叶斯</h2><h3 id="贝叶斯推断：先估计一个值，根据实际结果不断修正。"><a href="#贝叶斯推断：先估计一个值，根据实际结果不断修正。" class="headerlink" title="贝叶斯推断：先估计一个值，根据实际结果不断修正。"></a>贝叶斯推断：先估计一个值，根据实际结果不断修正。</h3><h3 id="贝叶斯定理：P-A-B-，条件概率，事件B发生的情况下，事件A发生的概率。"><a href="#贝叶斯定理：P-A-B-，条件概率，事件B发生的情况下，事件A发生的概率。" class="headerlink" title="贝叶斯定理：P(A|B)，条件概率，事件B发生的情况下，事件A发生的概率。"></a>贝叶斯定理：P(A|B)，条件概率，事件B发生的情况下，事件A发生的概率。</h3><p><img src="/2017/06/06/机器学习-朴素贝叶斯/venturi-diagram.jpg" alt="文氏图"><br>由文氏图得<br><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>A</mi><mi mathvariant="normal">∣</mi><mi>B</mi><mo fence="true">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>A</mi><mo>⋂</mo><mi>B</mi><mo fence="true">)</mo></mrow></mrow><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mo fence="true">)</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex">
-P \left ( A|B \right ) = \frac {P \left ( A \bigcap B \right )} {P \left ( B \right )}
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.0100069999999999em;"></span><span class="strut bottom" style="height:1.530007em;vertical-align:-0.52em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit">A</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span><span class="mrel">=</span><span class="mord reset-textstyle textstyle uncramped"><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span><span class="mfrac"><span class="vlist"><span style="top:0.34500000000000003em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle cramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span></span></span></span><span style="top:-0.22999999999999998em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle textstyle uncramped frac-line"></span></span><span style="top:-0.48500699999999997em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle uncramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit">A</span><span class="op-symbol small-op mop" style="top:0.074995em;">⋂</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span>​</span></span></span><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span></span></span></span></span><br>又<br><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mi mathvariant="normal">∣</mi><mi>A</mi><mo fence="true">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>A</mi><mo>⋂</mo><mi>B</mi><mo fence="true">)</mo></mrow></mrow><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mo fence="true">)</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex">
-P \left ( B|A \right ) = \frac {P \left ( A \bigcap B \right )} {P \left ( B \right )}
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.0100069999999999em;"></span><span class="strut bottom" style="height:1.530007em;vertical-align:-0.52em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord mathit">A</span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span><span class="mrel">=</span><span class="mord reset-textstyle textstyle uncramped"><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span><span class="mfrac"><span class="vlist"><span style="top:0.34500000000000003em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle cramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span></span></span></span><span style="top:-0.22999999999999998em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle textstyle uncramped frac-line"></span></span><span style="top:-0.48500699999999997em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle uncramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit">A</span><span class="op-symbol small-op mop" style="top:0.074995em;">⋂</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span>​</span></span></span><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span></span></span></span></span><br>故<br><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>A</mi><mo>⋂</mo><mi>B</mi><mo fence="true">)</mo></mrow><mo>=</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>A</mi><mi mathvariant="normal">∣</mi><mi>B</mi><mo fence="true">)</mo></mrow><mo>∗</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mo fence="true">)</mo></mrow><mo>=</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mi mathvariant="normal">∣</mi><mi>A</mi><mo fence="true">)</mo></mrow><mo>∗</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>A</mi><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
-P \left ( A \bigcap B \right ) = P \left ( A|B \right ) \ast P \left ( B \right ) = P \left ( B|A \right ) \ast P \left ( A \right )
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1.00001em;vertical-align:-0.25001em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit">A</span><span class="op-symbol small-op mop" style="top:-0.0000050000000000050004em;">⋂</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit">A</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span><span class="mbin">∗</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord mathit">A</span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span><span class="mbin">∗</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit">A</span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span></span></span></span><br>最终<br><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>A</mi><mi mathvariant="normal">∣</mi><mi>B</mi><mo fence="true">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mi mathvariant="normal">∣</mi><mi>A</mi><mo fence="true">)</mo></mrow><mo>∗</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>A</mi><mo fence="true">)</mo></mrow></mrow><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mo fence="true">)</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex">
-P \left ( A|B \right ) = \frac{P \left ( B|A \right ) \ast P \left ( A \right )}{P \left ( B \right )}
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.01em;"></span><span class="strut bottom" style="height:1.53em;vertical-align:-0.52em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit">A</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span><span class="mrel">=</span><span class="mord reset-textstyle textstyle uncramped"><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span><span class="mfrac"><span class="vlist"><span style="top:0.34500000000000003em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle cramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span></span></span></span><span style="top:-0.22999999999999998em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle textstyle uncramped frac-line"></span></span><span style="top:-0.485em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle uncramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord mathit">A</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span><span class="mbin">∗</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle uncramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit">A</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span>​</span></span></span><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span></span></span></span></span></p>
-<h3 id="全概率公式"><a href="#全概率公式" class="headerlink" title="全概率公式"></a>全概率公式</h3><p>由文氏图得<br><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mo fence="true">)</mo></mrow><mo>=</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mo>⋂</mo><mi>A</mi><mo fence="true">)</mo></mrow><mo>+</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mo>⋂</mo><msup><mrow><mi>A</mi></mrow><mrow><mi mathvariant="normal">′</mi></mrow></msup><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
-P \left ( B \right ) = P \left ( B \bigcap A \right ) + P \left (  B \bigcap{A}&#x27; \right )
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.751892em;"></span><span class="strut bottom" style="height:1.001902em;vertical-align:-0.25001em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="op-symbol small-op mop" style="top:-0.0000050000000000050004em;">⋂</span><span class="mord mathit">A</span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="op-symbol small-op mop" style="top:-0.0000050000000000050004em;">⋂</span><span class="mord"><span class="mord textstyle uncramped"><span class="mord mathit">A</span></span><span class="vlist"><span style="top:-0.363em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathrm">′</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span></span></span></span><br>由条件概率公式得<br><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mo>⋂</mo><mi>A</mi><mo fence="true">)</mo></mrow><mo>=</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mi mathvariant="normal">∣</mi><mi>A</mi><mo fence="true">)</mo></mrow><mo>∗</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>A</mi><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
-P \left ( B \bigcap A \right ) = P \left ( B|A \right ) \ast P \left ( A \right )
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1.00001em;vertical-align:-0.25001em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="op-symbol small-op mop" style="top:-0.0000050000000000050004em;">⋂</span><span class="mord mathit">A</span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord mathit">A</span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span><span class="mbin">∗</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit">A</span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span></span></span></span><br>代入得全概率公式<br><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mo fence="true">)</mo></mrow><mo>=</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mi mathvariant="normal">∣</mi><mi>A</mi><mo fence="true">)</mo></mrow><mo>∗</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>A</mi><mo fence="true">)</mo></mrow><mo>+</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mi mathvariant="normal">∣</mi><msup><mrow><mi>A</mi></mrow><mrow><mi mathvariant="normal">′</mi></mrow></msup><mo fence="true">)</mo></mrow><mo>∗</mo><mi>P</mi><mrow><mo fence="true">(</mo><msup><mrow><mi>A</mi></mrow><mrow><mi mathvariant="normal">′</mi></mrow></msup><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">
-P \left ( B \right ) = P \left ( B|A \right ) \ast P \left ( A \right ) + P \left ( B|{A}&#x27; \right ) \ast P \left ( {A}&#x27; \right )
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.751892em;"></span><span class="strut bottom" style="height:1.001892em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord mathit">A</span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span><span class="mbin">∗</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit">A</span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord"><span class="mord textstyle uncramped"><span class="mord mathit">A</span></span><span class="vlist"><span style="top:-0.363em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathrm">′</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span><span class="mbin">∗</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord"><span class="mord textstyle uncramped"><span class="mord mathit">A</span></span><span class="vlist"><span style="top:-0.363em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathrm">′</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span></span></span></span><br>代入条件概率公式得到条件概率另一种写法</p>
-<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>A</mi><mi mathvariant="normal">∣</mi><mi>B</mi><mo fence="true">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mi mathvariant="normal">∣</mi><mi>A</mi><mo fence="true">)</mo></mrow><mo>∗</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>A</mi><mo fence="true">)</mo></mrow></mrow><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mo fence="true">)</mo></mrow></mrow></mfrac><mo>=</mo><mfrac><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mi mathvariant="normal">∣</mi><mi>A</mi><mo fence="true">)</mo></mrow><mo>∗</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>A</mi><mo fence="true">)</mo></mrow></mrow><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mi mathvariant="normal">∣</mi><mi>A</mi><mo fence="true">)</mo></mrow><mo>∗</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>A</mi><mo fence="true">)</mo></mrow><mo>+</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mi mathvariant="normal">∣</mi><msup><mrow><mi>A</mi></mrow><mrow><mi mathvariant="normal">′</mi></mrow></msup><mo fence="true">)</mo></mrow><mo>∗</mo><mi>P</mi><mrow><mo fence="true">(</mo><msup><mrow><mi>A</mi></mrow><mrow><mi mathvariant="normal">′</mi></mrow></msup><mo fence="true">)</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex">
-P \left ( A|B \right ) = \frac{P \left ( B|A \right ) \ast P \left ( A \right )}{P \left ( B \right )} = \frac{P\left ( B|A \right )\ast P\left ( A \right )}{P \left ( B|A \right ) \ast P \left ( A \right ) + P \left ( B|{A}&#x27; \right ) \ast P \left ( {A}&#x27; \right )}
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.01em;"></span><span class="strut bottom" style="height:1.53em;vertical-align:-0.52em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit">A</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span><span class="mrel">=</span><span class="mord reset-textstyle textstyle uncramped"><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span><span class="mfrac"><span class="vlist"><span style="top:0.34500000000000003em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle cramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span></span></span></span><span style="top:-0.22999999999999998em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle textstyle uncramped frac-line"></span></span><span style="top:-0.485em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle uncramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord mathit">A</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span><span class="mbin">∗</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle uncramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit">A</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span>​</span></span></span><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span></span><span class="mrel">=</span><span class="mord reset-textstyle textstyle uncramped"><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span><span class="mfrac"><span class="vlist"><span style="top:0.34500000000000003em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle cramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord mathit">A</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span><span class="mbin">∗</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle cramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit">A</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle cramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord"><span class="mord scriptstyle cramped"><span class="mord mathit">A</span></span><span class="vlist"><span style="top:-0.289em;margin-right:0.07142857142857144em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-scriptstyle scriptscriptstyle cramped"><span class="mord scriptscriptstyle cramped"><span class="mord mathrm">′</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span><span class="mbin">∗</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle cramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord"><span class="mord scriptstyle cramped"><span class="mord mathit">A</span></span><span class="vlist"><span style="top:-0.289em;margin-right:0.07142857142857144em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-scriptstyle scriptscriptstyle cramped"><span class="mord scriptscriptstyle cramped"><span class="mord mathrm">′</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span></span></span></span><span style="top:-0.22999999999999998em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle textstyle uncramped frac-line"></span></span><span style="top:-0.485em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle uncramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord mathit">A</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span><span class="mbin">∗</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle uncramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit">A</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span>​</span></span></span><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span></span></span></span></span>
-<h3 id="贝叶斯推断"><a href="#贝叶斯推断" class="headerlink" title="贝叶斯推断"></a>贝叶斯推断</h3><p>条件概率<br><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>A</mi><mi mathvariant="normal">∣</mi><mi>B</mi><mo fence="true">)</mo></mrow><mo>=</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>A</mi><mo fence="true">)</mo></mrow><mo>∗</mo><mfrac><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mi mathvariant="normal">∣</mi><mi>A</mi><mo fence="true">)</mo></mrow></mrow><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>B</mi><mo fence="true">)</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex">
-P \left ( A|B \right ) = P \left ( A \right ) \ast \frac{P \left ( B|A \right )}{P \left ( B \right )}
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.01em;"></span><span class="strut bottom" style="height:1.53em;vertical-align:-0.52em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit">A</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit">A</span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span><span class="mbin">∗</span><span class="mord reset-textstyle textstyle uncramped"><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span><span class="mfrac"><span class="vlist"><span style="top:0.34500000000000003em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle cramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span></span></span></span><span style="top:-0.22999999999999998em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle textstyle uncramped frac-line"></span></span><span style="top:-0.485em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle uncramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord mathit">A</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span>​</span></span></span><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span></span></span></span></span><br>P(A)：先验概率，在事件B发生之前，事件A发生的概率，与事件B无关。<br>P(A|B)：后验概率，在事件B发生之后，事件A发生的概率。<br>P(B|A)/P(B)：可能性函数，用于调整先验概率，使之接近后验概率。若大于1，先验概率被增强，后验概率变大，反之，先验概率被削弱，后验概率变小。</p>
-<h2 id="使用贝叶斯过滤垃圾邮件"><a href="#使用贝叶斯过滤垃圾邮件" class="headerlink" title="使用贝叶斯过滤垃圾邮件"></a>使用贝叶斯过滤垃圾邮件</h2><p>假定先验概率，垃圾邮件的概率P(S)=50%，正常邮件的概率P(H)=50%<br>根据条件概率公式，某个词语存在的条件下，垃圾邮件的概率：<br><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>S</mi><mi mathvariant="normal">∣</mi><mi>W</mi><mo fence="true">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>W</mi><mi mathvariant="normal">∣</mi><mi>S</mi><mo fence="true">)</mo></mrow><mo>∗</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>S</mi><mo fence="true">)</mo></mrow></mrow><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>W</mi><mi mathvariant="normal">∣</mi><mi>S</mi><mo fence="true">)</mo></mrow><mo>∗</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>S</mi><mo fence="true">)</mo></mrow><mo>+</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>W</mi><mi mathvariant="normal">∣</mi><mi>H</mi><mo fence="true">)</mo></mrow><mo>∗</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>H</mi><mo fence="true">)</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex">
-P \left ( S|W \right ) = \frac{P\left ( W|S \right ) \ast P\left ( S \right )}{P\left ( W|S \right )\ast P\left ( S \right )+P\left ( W|H \right )\ast P\left ( H \right )}
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.01em;"></span><span class="strut bottom" style="height:1.53em;vertical-align:-0.52em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner textstyle uncramped"><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.13889em;">W</span><span class="style-wrap reset-textstyle textstyle uncramped" style="top:0em;">)</span></span><span class="mrel">=</span><span class="mord reset-textstyle textstyle uncramped"><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span><span class="mfrac"><span class="vlist"><span style="top:0.34500000000000003em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle cramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.13889em;">W</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span><span class="mbin">∗</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle cramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle cramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.13889em;">W</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.08125em;">H</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span><span class="mbin">∗</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle cramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.08125em;">H</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span></span></span></span><span style="top:-0.22999999999999998em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle textstyle uncramped frac-line"></span></span><span style="top:-0.485em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle uncramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.13889em;">W</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span><span class="mbin">∗</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle uncramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span>​</span></span></span><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span></span></span></span></span><br>需要求出P(W|S)垃圾邮件中W单词的概率和P(W|H)正常邮件中W单词的概率<br>一般情况下我们需要根据多个单词的出现判断垃圾邮件<br>P1 = P(S|W1)<br>P2 = P(S|W2)</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">事件</th>
-<th style="text-align:left">单词W1</th>
-<th style="text-align:left">单词W2</th>
-<th style="text-align:left">是否是垃圾邮件</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">垃圾邮件E1</td>
-<td style="text-align:left">P1</td>
-<td style="text-align:left">P2</td>
-<td style="text-align:left">P(S)</td>
-</tr>
-<tr>
-<td style="text-align:left">正常邮件E2</td>
-<td style="text-align:left">1-P1</td>
-<td style="text-align:left">1-P2</td>
-<td style="text-align:left">1-P(S)</td>
-</tr>
-</tbody>
-</table>
-<p>假设事件独立<br>P(E1) = P(S|W1)P(S|W2)P(S)<br>P(E2) = (1-P(S|W1))(1-P(S|W2))(1-P(S))<br><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>=</mo><mfrac><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>E</mi><mn>1</mn><mo fence="true">)</mo></mrow></mrow><mrow><mi>P</mi><mrow><mo fence="true">(</mo><mi>E</mi><mn>1</mn><mo fence="true">)</mo></mrow><mo>+</mo><mi>P</mi><mrow><mo fence="true">(</mo><mi>E</mi><mn>2</mn><mo fence="true">)</mo></mrow></mrow></mfrac><mo>=</mo><mfrac><mrow><mi>P</mi><mo>(</mo><mi>S</mi><mi mathvariant="normal">∣</mi><mi>W</mi><mn>1</mn><mo>)</mo><mi>P</mi><mo>(</mo><mi>S</mi><mi mathvariant="normal">∣</mi><mi>W</mi><mn>2</mn><mo>)</mo><mi>P</mi><mo>(</mo><mi>S</mi><mo>)</mo></mrow><mrow><mi>P</mi><mo>(</mo><mi>S</mi><mi mathvariant="normal">∣</mi><mi>W</mi><mn>1</mn><mo>)</mo><mi>P</mi><mo>(</mo><mi>S</mi><mi mathvariant="normal">∣</mi><mi>W</mi><mn>2</mn><mo>)</mo><mi>P</mi><mo>(</mo><mi>S</mi><mo>)</mo><mo>+</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>P</mi><mo>(</mo><mi>S</mi><mi mathvariant="normal">∣</mi><mi>W</mi><mn>1</mn><mo>)</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>P</mi><mo>(</mo><mi>S</mi><mi mathvariant="normal">∣</mi><mi>W</mi><mn>2</mn><mo>)</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>P</mi><mo>(</mo><mi>S</mi><mo>)</mo><mo>)</mo><mo>)</mo><mo>)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">P=\frac{P\left ( E1 \right )}{P\left ( E1 \right ) + P\left ( E2 \right )}=\frac{P(S|W1)P(S|W2)P(S)}{P(S|W1)P(S|W2)P(S)+(1-P(S|W1)(1-P(S|W2)(1-P(S))))}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.01em;"></span><span class="strut bottom" style="height:1.53em;vertical-align:-0.52em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mrel">=</span><span class="mord reset-textstyle textstyle uncramped"><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span><span class="mfrac"><span class="vlist"><span style="top:0.34500000000000003em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle cramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05764em;">E</span><span class="mord mathrm">1</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle cramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05764em;">E</span><span class="mord mathrm">2</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span></span></span></span><span style="top:-0.22999999999999998em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle textstyle uncramped frac-line"></span></span><span style="top:-0.485em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="minner scriptstyle uncramped"><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">(</span><span class="mord mathit" style="margin-right:0.05764em;">E</span><span class="mord mathrm">1</span><span class="style-wrap reset-scriptstyle scriptstyle uncramped" style="top:0em;">)</span></span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0.7em;">​</span></span>​</span></span></span><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span></span><span class="mrel">=</span><span class="mord reset-textstyle textstyle uncramped"><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span><span class="mfrac"><span class="vlist"><span style="top:0.34500000000000003em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.13889em;">W</span><span class="mord mathrm">1</span><span class="mclose">)</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.13889em;">W</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mclose">)</span><span class="mbin">+</span><span class="mopen">(</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.13889em;">W</span><span class="mord mathrm">1</span><span class="mclose">)</span><span class="mopen">(</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.13889em;">W</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mopen">(</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mclose">)</span><span class="mclose">)</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span><span style="top:-0.22999999999999998em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle uncramped frac-line"></span></span><span style="top:-0.485em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.13889em;">W</span><span class="mord mathrm">1</span><span class="mclose">)</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.13889em;">W</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mclose">)</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span></span></span></span></span><br>代入P(S)=0.5<br><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>=</mo><mfrac><mrow><mi>P</mi><mo>(</mo><mi>S</mi><mi mathvariant="normal">∣</mi><mi>W</mi><mn>1</mn><mo>)</mo><mi>P</mi><mo>(</mo><mi>S</mi><mi mathvariant="normal">∣</mi><mi>W</mi><mn>2</mn><mo>)</mo></mrow><mrow><mi>P</mi><mo>(</mo><mi>S</mi><mi mathvariant="normal">∣</mi><mi>W</mi><mn>1</mn><mo>)</mo><mi>P</mi><mo>(</mo><mi>S</mi><mi mathvariant="normal">∣</mi><mi>W</mi><mn>2</mn><mo>)</mo><mo>+</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>P</mi><mo>(</mo><mi>S</mi><mi mathvariant="normal">∣</mi><mi>W</mi><mn>1</mn><mo>)</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>P</mi><mo>(</mo><mi>S</mi><mi mathvariant="normal">∣</mi><mi>W</mi><mn>2</mn><mo>)</mo><mo>)</mo><mo>)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">P=\frac{P(S|W1)P(S|W2)}{P(S|W1)P(S|W2)+(1-P(S|W1)(1-P(S|W2)))}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.01em;"></span><span class="strut bottom" style="height:1.53em;vertical-align:-0.52em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mrel">=</span><span class="mord reset-textstyle textstyle uncramped"><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span><span class="mfrac"><span class="vlist"><span style="top:0.34500000000000003em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.13889em;">W</span><span class="mord mathrm">1</span><span class="mclose">)</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.13889em;">W</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mbin">+</span><span class="mopen">(</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.13889em;">W</span><span class="mord mathrm">1</span><span class="mclose">)</span><span class="mopen">(</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.13889em;">W</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span><span style="top:-0.22999999999999998em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle uncramped frac-line"></span></span><span style="top:-0.485em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.13889em;">W</span><span class="mord mathrm">1</span><span class="mclose">)</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.13889em;">W</span><span class="mord mathrm">2</span><span class="mclose">)</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span></span></span></span></span><br><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>=</mo><mfrac><mrow><mi>P</mi><mn>1</mn><mi>P</mi><mn>2</mn></mrow><mrow><mi>P</mi><mn>1</mn><mi>P</mi><mn>2</mn><mo>+</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>P</mi><mn>1</mn><mo>)</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>P</mi><mn>2</mn><mo>)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">P=\frac{P1P2}{P1P2 + (1-P1)(1-P2)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.872331em;"></span><span class="strut bottom" style="height:1.392331em;vertical-align:-0.52em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mrel">=</span><span class="mord reset-textstyle textstyle uncramped"><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span><span class="mfrac"><span class="vlist"><span style="top:0.34500000000000003em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mord mathrm">1</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mord mathrm">2</span><span class="mbin">+</span><span class="mopen">(</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mord mathrm">1</span><span class="mclose">)</span><span class="mopen">(</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mord mathrm">2</span><span class="mclose">)</span></span></span></span><span style="top:-0.22999999999999998em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle uncramped frac-line"></span></span><span style="top:-0.394em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mord mathrm">1</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mord mathrm">2</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span></span></span></span></span><br>扩展到所有单词<br><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>=</mo><mfrac><mrow><mi>P</mi><mn>1</mn><mi>P</mi><mn>2</mn><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi>P</mi><mi>n</mi></mrow><mrow><mi>P</mi><mn>1</mn><mi>P</mi><mn>2</mn><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi>P</mi><mi>n</mi><mo>+</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>P</mi><mn>1</mn><mo>)</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>P</mi><mn>2</mn><mo>)</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo>(</mo><mn>1</mn><mo>−</mo><mi>P</mi><mi>n</mi><mo>)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">P=\frac{P1P2...Pn}{P1P2...Pn + (1-P1)(1-P2)...(1-Pn)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.872331em;"></span><span class="strut bottom" style="height:1.392331em;vertical-align:-0.52em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mrel">=</span><span class="mord reset-textstyle textstyle uncramped"><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span><span class="mfrac"><span class="vlist"><span style="top:0.34500000000000003em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mord mathrm">1</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mord mathrm">2</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mord mathit">n</span><span class="mbin">+</span><span class="mopen">(</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mord mathrm">1</span><span class="mclose">)</span><span class="mopen">(</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mopen">(</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mord mathit">n</span><span class="mclose">)</span></span></span></span><span style="top:-0.22999999999999998em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle textstyle uncramped frac-line"></span></span><span style="top:-0.394em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mord mathrm">1</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mord mathrm">2</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mord mathit">n</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="sizing reset-size5 size5 reset-textstyle textstyle uncramped nulldelimiter"></span></span></span></span></span></p>
-<h2 id="朴素贝叶斯三个模型（scikit-learn）"><a href="#朴素贝叶斯三个模型（scikit-learn）" class="headerlink" title="朴素贝叶斯三个模型（scikit-learn）"></a>朴素贝叶斯三个模型（scikit-learn）</h2><p>高斯Gaussian:特征值分布符合高斯分布<br>多项式Multinomial:适合文本分类<br>伯努利Bernoulli:特征取值是布尔型的<br><!--<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><msub><mi>x</mi><mrow><mi>i</mi></mrow></msub><mi mathvariant="normal">∣</mi><mi>y</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>i</mi><mi mathvariant="normal">∣</mi><mi>y</mi><mo>)</mo><msub><mi>x</mi><mrow><mi>i</mi></mrow></msub><mo>+</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>P</mi><mo>(</mo><mi>i</mi><mi mathvariant="normal">∣</mi><mi>y</mi><mo>)</mo><mo>)</mo><mo>(</mo><mn>1</mn><mo>−</mo><msub><mi>x</mi><mrow><mi>i</mi></mrow></msub><mo>)</mo></mrow><annotation encoding="application/x-tex">P(x_{i}|y)= P(i|y)x_{i} + (1-P(i|y))(1-x_{i})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">x</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">i</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">i</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mord"><span class="mord mathit">x</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">i</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mbin">+</span><span class="mopen">(</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">i</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mclose">)</span><span class="mopen">(</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mord"><span class="mord mathit">x</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:0em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord scriptstyle cramped"><span class="mord mathit">i</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mclose">)</span></span></span></span>–&gt;</p>
---></p>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://facejiong.github.io/2017/06/06/人工智能应用收集/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Wang Jiong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="wangjiong's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/06/人工智能应用收集/" itemprop="url">人工智能应用收集</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-06T18:49:19+08:00">
-                2017-06-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"><table>
-<thead>
-<tr>
-<th style="text-align:left">名称</th>
-<th style="text-align:left">介绍</th>
-<th style="text-align:left">链接</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">logojoy</td>
-<td style="text-align:left">使用遗传算法生成logo</td>
-<td style="text-align:left"><a href="https://www.logojoy.com/" target="_blank" rel="external">https://www.logojoy.com/</a></td>
-</tr>
-<tr>
-<td style="text-align:left">PaintsChainer</td>
-<td style="text-align:left">漫画线稿自动上色</td>
-<td style="text-align:left"><a href="https://github.com/pfnet/PaintsChainer" target="_blank" rel="external">https://github.com/pfnet/PaintsChainer</a></td>
-</tr>
-<tr>
-<td style="text-align:left">arkie</td>
-<td style="text-align:left">生成设计海报</td>
-<td style="text-align:left"><a href="http://www.arkie.cn/" target="_blank" rel="external">http://www.arkie.cn/</a></td>
-</tr>
-</tbody>
-</table>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1832,7 +1741,7 @@ P \left ( S|W \right ) = \frac{P\left ( W|S \right ) \ast P\left ( S \right )}{P
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
