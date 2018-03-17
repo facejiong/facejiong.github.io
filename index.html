@@ -265,6 +265,146 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://facejiong.github.io/2018/03/17/js数据结构与算法-排序/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wang Jiong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wangjiong's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/17/js数据结构与算法-排序/" itemprop="url">js数据结构与算法-排序</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-17T21:18:01+08:00">
+                2018-03-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function swap(arr, a, b) &#123;</div><div class="line">  var temp = arr[a]</div><div class="line">  arr[a] = arr[b]</div><div class="line">  arr[b] = temp</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>冒泡排序：特点相邻元素交换位置，j循环每遍历一轮，冒泡一个最大值到顶部<br>时间复杂度：O(n*n)<br>空间复杂度：O(1)<br>稳定性：稳定<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function buddleSort(arr) &#123;</div><div class="line">  var len = arr.length;</div><div class="line">  for(var i = 0; i &lt; len; i++) &#123;</div><div class="line">    for (var j = 0; j &lt; len - i; j++) &#123;</div><div class="line">      if (arr[j] &gt; arr[j + 1]) &#123;</div><div class="line">        swap(arr, j, j +1 )</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>选择排序：j循环选择最小的与i交换<br>时间复杂度：O(n*n)<br>空间复杂度：O(1)<br>稳定性：不稳定<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function selectSort(arr) &#123;</div><div class="line">  var len = arr.length;</div><div class="line">  for(var i = 0; i &lt; len; i++) &#123;</div><div class="line">    var minIndex = i;</div><div class="line">    for (var j = i + 1; j &lt; len; j++) &#123;</div><div class="line">      if (arr[minIndex] &gt; arr[j]) &#123;</div><div class="line">        minIndex = j</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    swap(arr, i, minIndex)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>插入排序：将待排序依次插入已排序序列的合适位置<br>时间复杂度：O(n*n)<br>空间复杂度：O(1)<br>稳定性：稳定<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">function insertSort(arr) &#123;</div><div class="line">  var len = arr.length;</div><div class="line">  for(var i = 0; i &lt; len; i++) &#123;</div><div class="line">    var minIndex = i;</div><div class="line">    while(j = i &amp;&amp; arr[j] &lt; arr[j - 1]) &#123;</div><div class="line">      swap(arr, j, j - 1)</div><div class="line">      --j</div><div class="line">    &#125;</div><div class="line"></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>希尔排序：插入排序的改善，定义一个间隔序列<br>时间复杂度：O(nlog2n)<br>空间复杂度：O(1)<br>稳定性：不稳定<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">//间隔序列，分别以间隔序列里面的间隔进行插入排序</div><div class="line">var gaps = [5, 3, 1]</div><div class="line">function shellSort(arr) &#123;</div><div class="line">  var len = arr.length;</div><div class="line">  var gapsLen = gaps.length</div><div class="line">  for (var g = 0; g &lt; gapsLen; g++) &#123;</div><div class="line">    var gap = gaps[g]</div><div class="line">    for (var i = gap; i &lt; len; i++) &#123;</div><div class="line">      var temp = arr[i];</div><div class="line">      for (var j = i; j &gt;= gap &amp;&amp; arr[j - gap] &gt; temp; j -= gap) &#123;</div><div class="line">        arr[j] = arr[j - gap];</div><div class="line">      &#125;</div><div class="line">      arr[j] = temp;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>快速排序：递归将数据依次分为包含较小元素和较大元素不同子序列，分治法<br>时间复杂度：O(nlog2n)<br>空间复杂度：O(nlog2n)<br>稳定性：不稳定<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">function quickSort(arr) &#123;</div><div class="line">  var minArr = []</div><div class="line">  var maxArr = []</div><div class="line">  var pri = arr[0]</div><div class="line">  var len = arr.length</div><div class="line">  for (var i = 0; i &lt; len; i++) &#123;</div><div class="line">    if (arr[i] &lt; pri) &#123;</div><div class="line">      minArr.push(arr[i])</div><div class="line">    &#125; else &#123;</div><div class="line">      maxArr.push(arr[i])</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  return quickSort(minArr).concat(pri, quickSort(maxArr))</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>归并排序：把一系列排好序的子序列合并成一个大的完整有序序列，自顶向下（递归，深度太深，一般不用），自底向上（迭代）<br>时间复杂度：O(nlog2n)<br>空间复杂度：O(n)<br>稳定性：稳定<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line">//递归实现</div><div class="line">function merge(left, right) &#123;</div><div class="line">  var tmp = [];</div><div class="line"></div><div class="line">  while (left.length &amp;&amp; right.length) &#123;</div><div class="line">    if (left[0] &lt; right[0])</div><div class="line">      tmp.push(left.shift());</div><div class="line">    else</div><div class="line">      tmp.push(right.shift());</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  return tmp.concat(left, right);</div><div class="line">&#125;</div><div class="line"></div><div class="line">function mergeSort(a) &#123;</div><div class="line">  if (a.length === 1)</div><div class="line">    return a;</div><div class="line"></div><div class="line">  var mid = ~~(a.length / 2)</div><div class="line">    , left = a.slice(0, mid)</div><div class="line">    , right = a.slice(mid);</div><div class="line"></div><div class="line">  return merge(mergeSort(left), mergeSort(right));</div><div class="line">&#125;</div><div class="line">// 迭代实现</div><div class="line"></div><div class="line">function merge(left, right) &#123;</div><div class="line">  var result = [];</div><div class="line"></div><div class="line">  while (left.length &amp;&amp; right.length) &#123;</div><div class="line">    if (left[0] &lt; right[0]) &#123;</div><div class="line">      result.push(left.shift());</div><div class="line">    &#125; else &#123;</div><div class="line">      result.push(right.shift());</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  return result.concat(left, right);</div><div class="line">&#125;</div><div class="line"></div><div class="line">function mergeSort(arr) &#123;</div><div class="line">  if (arr.length === 1)</div><div class="line">    return arr;</div><div class="line"></div><div class="line">  var work = [];</div><div class="line">  for (var i = 0, len = arr.length; i &lt; len; i++) &#123;</div><div class="line">    work.push([arr[i]]);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  work.push([]);</div><div class="line"></div><div class="line">  for (var lim = len; lim &gt; 1; lim = ~~((lim + 1) / 2)) &#123;</div><div class="line">    for (var j = 0, k = 0; k &lt; lim; j++, k += 2) &#123;</div><div class="line">      work[j] = merge(work[k], work[k + 1]);</div><div class="line">    &#125;</div><div class="line">    work[j] = [];</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  return work[0];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://facejiong.github.io/2017/10/19/d3-timer/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -964,7 +1104,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/16/lodash-hash实现/" itemprop="url">js-each，map，reduce实现</a></h1>
+                <a class="post-title-link" href="/2017/10/16/lodash-hash实现/" itemprop="url">lodash-hash实现</a></h1>
         
 
         <div class="post-meta">
@@ -1098,7 +1238,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/16/lodash-flattern/" itemprop="url">js-each，map，reduce实现</a></h1>
+                <a class="post-title-link" href="/2017/10/16/lodash-flattern/" itemprop="url">lodash-flattern实现</a></h1>
         
 
         <div class="post-meta">
@@ -1451,140 +1591,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://facejiong.github.io/2017/06/29/机器学习之特征选择/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Wang Jiong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="wangjiong's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/29/机器学习之特征选择/" itemprop="url">机器学习之特征选择</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-29T14:24:11+08:00">
-                2017-06-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"><p>机器学习第一步是特征选择</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1634,7 +1640,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1656,7 +1662,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1698,7 +1704,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
